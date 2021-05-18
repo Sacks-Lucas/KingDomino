@@ -1,5 +1,9 @@
 package juego;
 
 public class Tablero {
-    protected int juego;
+   private Casillero centro;
+   
+   Tablero(Castillo castillo) {
+	   this.centro = new Casillero(castillo);
+   }
 }
