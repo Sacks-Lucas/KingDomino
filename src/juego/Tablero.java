@@ -1,4 +1,4 @@
-package tablero;
+package juego;
 
 public class Tablero {
 
