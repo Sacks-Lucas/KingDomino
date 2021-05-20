@@ -1,9 +1,14 @@
 package juego;
 
 public class Tablero {
-   private Casillero centro;
+   private Terreno centro;
+   
+   private int xParedIzq;
+   private int xParedDer;
+   private int yTecho;
+   private int yPiso;
    
    Tablero(Castillo castillo) {
-	   this.centro = new Casillero(castillo);
+	   centro = castillo;
    }
 }
