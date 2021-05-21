@@ -21,6 +21,19 @@ public class Ficha implements Comparable<Ficha>{
 	public int compareTo(Ficha o) {
 		return this.numero - o.numero;
 	}
+
+	public int getCode() {
+		// TODO Auto-generated method stub
+		return this.numero;
+	}
+
+	public Terreno getIzquierdo() {
+		return izquierdo;
+	}
+
+	public Terreno getDerecho() {
+		return derecho;
+	}
 	
 	
 	

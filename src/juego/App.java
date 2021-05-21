@@ -18,31 +18,27 @@ public class App {
 		}
 	}
 
-	public boolean add(Jugador e) {
-		return jugadores.add(e);
-	}
 
 	public void mezclarMazo() {
-		mazo.mezclar();
-		
-	}
-
-	public ArrayList<Ficha> fichasSobreLaMesa() {
-		
-		ArrayList<Ficha> fichasEnMesa = new ArrayList<Ficha>(jugadores.size());
-		
-		for (Jugador jugador : jugadores) {
-			fichasEnMesa.add(mazo.sacarFicha());
-		}
-		
-		fichasEnMesa.sort(null);
-		
-		return fichasEnMesa;
+		mazo.mezclar();	
 	}
 
 	public Jugador getJugador(int i) {
-		// TODO Auto-generated method stub
 		return jugadores.get(i);
 	}
+
+	public Mazo obtenerMazo() {
+		return this.mazo;
+	}
+
+	public ArrayList<Jugador> getJugadores() {
+		return this.jugadores;
+	}
+
+	public Mazo getMazo() {
+		return this.mazo;
+	}
+	
+	
 
 }
