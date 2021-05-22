@@ -5,6 +5,15 @@ public class Ficha implements Comparable<Ficha>{
 	private Terreno derecho;
 	private int numero;
 	
+	static final int  SENTIDO_VERTICAL = 1;
+	static final int  SENTIDO_HORIZONTAL = 2;
+	
+	static final int  SENTIDO_IZQ_TOP = 1;
+	static final int  SENTIDO_DER_DOWN = 2;
+	
+	private int sentidoFicha = SENTIDO_VERTICAL;
+	private int sentidoDir = SENTIDO_IZQ_TOP;
+	
 	public Ficha(Terreno izquierdo, Terreno derecho, int numero) {
 		
 		this.izquierdo = izquierdo;
@@ -12,6 +21,12 @@ public class Ficha implements Comparable<Ficha>{
 		this.numero = numero;
 	}
 
+	public int getSentidoFicha(){
+		return sentidoFicha;
+	}
+	public int getSentidoDir(){
+		return sentidoDir;
+	}
 	@Override
 	public String toString() {
 		return "Ficha numero=" + numero;
@@ -34,7 +49,27 @@ public class Ficha implements Comparable<Ficha>{
 	public Terreno getDerecho() {
 		return derecho;
 	}
+
+	public void rotarTerreno() {
+		Terreno a = izquierdo;
+		izquierdo = derecho;
+		derecho = izquierdo;
+	}
 	
-	
-	
+	public void rotarFicha() {
+		sentidoFicha = sentidoFicha == SENTIDO_HORIZONTAL?SENTIDO_VERTICAL: SENTIDO_HORIZONTAL;
+		
+	}
+	public void rotarSentido() {
+		sentidoDir = sentidoDir == SENTIDO_IZQ_TOP?SENTIDO_DER_DOWN: SENTIDO_IZQ_TOP;
+	}
+
+	public int getTipoTerrenoIzq() {
+		return this.izquierdo.getTipo();
+	}
+
+	public int getTipoTerrenoDer() {
+		return this.derecho.getTipo();
+	}
+
 }
