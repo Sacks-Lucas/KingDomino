@@ -31,7 +31,6 @@ public class Mazo {
 	}
 
 	public Ficha sacarFicha() {
-		
 		return fichas.remove(fichas.size()-1);
 	}
 
