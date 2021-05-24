@@ -6,7 +6,7 @@ public class Jugador implements Comparable<Jugador>{
 	private Rey rey;
 	private String color;
 	private Tablero tablero; 
-	
+	//cambiar Rey x variable posición
 	public Jugador(String color) {
 		rey = new Rey(color);
 		this.color = color;
@@ -14,13 +14,7 @@ public class Jugador implements Comparable<Jugador>{
 	}
 
 	public int elegirFicha(List<Ficha> fichasMesa,int codFicha) {
-
-		for (int i = 0; i < fichasMesa.size(); i++) {
-			if(codFicha == fichasMesa.get(i).getCode()) {
-				return i;
-			}
-		}
-		return -1;
+		return fichasMesa.indexOf(new Ficha(null,null,codFicha));
 	}
 	
 	@Override

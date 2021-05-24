@@ -24,7 +24,7 @@ public class TestKingoDomino {
 		
 		//juego.mezclarMazo(); NO MEZCLAMOS PORQUE FUNCIONA Y NO PODEMOS DETERMINAR EL NUMERO EXACTO
 		
-		System.out.println(juego.getMazo());
+		//System.out.println(juego.getMazo());
 		Ronda rondas = new Ronda(juego.getJugadores(),juego.getMazo());
 		
 		System.out.println("INICIO RONDA "+rondas.getRonda());

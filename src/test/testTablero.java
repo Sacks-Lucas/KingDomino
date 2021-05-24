@@ -9,9 +9,10 @@ import juego.Terreno;
 
 public class testTablero {
 	@Test
+
 	public void testNoPuedoPonerEnLugarOcupado() {
 		Jugador j = new Jugador("rojo");
-		
+		// se tiene que sacar null de los terrenos
 		Ficha f = new Ficha(new Terreno(null, 0,1), new Terreno(null, 0,3), 0);
 		Ficha f2 = new Ficha(new Terreno(null, 0,1), new Terreno(null, 0,3), 0);
 		

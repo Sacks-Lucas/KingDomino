@@ -1,19 +1,17 @@
 package juego;
 
 public class Terreno {
-	private String tipo;
 	private int cantCoronas;
-	private int valor;
+	private int tipo;
 	
-	public Terreno(String tipo, int cantCoronas,int valor) {
-		this.tipo = tipo;
-		this.valor = valor;
+	public Terreno( int cantCoronas,int valor) {
+		this.tipo = valor;
 		this.cantCoronas = cantCoronas;
 	}
 
 	public int getTipo() {
 		
-		return this.valor;
+		return this.tipo;
 	}
 	
 	
