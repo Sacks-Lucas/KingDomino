@@ -1,0 +1,5 @@
+Sistema de puntuación
+mejorar Test y agregar los faltantes
+Sacar el Rey y que siga funcionando
+Mejorar el Sistema de coord. fichas con Tablero
+Creación de Mazo. 
