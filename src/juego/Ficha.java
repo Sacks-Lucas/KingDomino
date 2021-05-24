@@ -1,32 +1,17 @@
 package juego;
 
 public class Ficha implements Comparable<Ficha>{
-	private Terreno izquierdo;
-	private Terreno derecho;
+	private Terreno t1;
+	private Terreno t2;
 	private int numero;
 	
-	static final int  SENTIDO_VERTICAL = 1;
-	static final int  SENTIDO_HORIZONTAL = 2;
-	
-	static final int  SENTIDO_IZQ_TOP = 1;
-	static final int  SENTIDO_DER_DOWN = 2;
-	
-	private int sentidoFicha = SENTIDO_VERTICAL;
-	private int sentidoDir = SENTIDO_IZQ_TOP;
-	
-	public Ficha(Terreno izquierdo, Terreno derecho, int numero) {
+	public Ficha(Terreno t1, Terreno t2, int numero) {
 		
-		this.izquierdo = izquierdo;
-		this.derecho = derecho;
+		this.t1 = t1;
+		this.t2 = t2;
 		this.numero = numero;
 	}
 
-	public int getSentidoFicha(){
-		return sentidoFicha;
-	}
-	public int getSentidoDir(){
-		return sentidoDir;
-	}
 	@Override
 	public String toString() {
 		return "Ficha numero=" + numero;
@@ -42,34 +27,26 @@ public class Ficha implements Comparable<Ficha>{
 		return this.numero;
 	}
 
-	public Terreno getIzquierdo() {
-		return izquierdo;
+	public Terreno getT1() {
+		return t1;
 	}
 
-	public Terreno getDerecho() {
-		return derecho;
+	public Terreno getT2() {
+		return t2;
 	}
 
 	public void rotarTerreno() {
-		Terreno a = izquierdo;
-		izquierdo = derecho;
-		derecho = izquierdo;
-	}
-	
-	public void rotarFicha() {
-		sentidoFicha = sentidoFicha == SENTIDO_HORIZONTAL?SENTIDO_VERTICAL: SENTIDO_HORIZONTAL;
-		
-	}
-	public void rotarSentido() {
-		sentidoDir = sentidoDir == SENTIDO_IZQ_TOP?SENTIDO_DER_DOWN: SENTIDO_IZQ_TOP;
+		Terreno a = t1;
+		t1 = t2;
+		t2 = a;
 	}
 
-	public int getTipoTerrenoIzq() {
-		return this.izquierdo.getTipo();
+	public int getTipoTerreno1() {
+		return this.t1.getTipo();
 	}
 
-	public int getTipoTerrenoDer() {
-		return this.derecho.getTipo();
+	public int getTipoTerreno2() {
+		return this.t2.getTipo();
 	}
 
 }
