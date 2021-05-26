@@ -51,9 +51,9 @@ public class Ficha implements Comparable<Ficha>{
 	}
 
 	public void rotarTerreno() {
-		Terreno a = izquierdo;
+		Terreno a = izquierdo.clone();
 		izquierdo = derecho;
-		derecho = izquierdo;
+		derecho = a;
 	}
 	
 	public void rotarFicha() {
@@ -64,12 +64,12 @@ public class Ficha implements Comparable<Ficha>{
 		sentidoDir = sentidoDir == SENTIDO_IZQ_TOP?SENTIDO_DER_DOWN: SENTIDO_IZQ_TOP;
 	}
 
-	public int getTipoTerrenoIzq() {
-		return this.izquierdo.getTipo();
+	public Terreno getTipoTerrenoIzq() {
+		return this.izquierdo;
 	}
 
-	public int getTipoTerrenoDer() {
-		return this.derecho.getTipo();
+	public Terreno getTipoTerrenoDer() {
+		return this.derecho;
 	}
 
 	@Override
@@ -93,6 +93,8 @@ public class Ficha implements Comparable<Ficha>{
 			return false;
 		return true;
 	}
+
+
 	
 	
 

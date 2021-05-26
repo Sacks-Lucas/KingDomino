@@ -48,10 +48,10 @@ public class Jugador implements Comparable<Jugador> {
 	 */
 
 	public boolean agregarFichaTablero(Ficha f, int x, int y) {
-		if (tablero.puedeAgregar(f, x, y, f.getSentidoFicha(), f.getSentidoDir())) {
-			tablero.agregarFicha(f, x, y, f.getSentidoFicha(), f.getSentidoDir());
-			return true;
-		}
+//		if (tablero.puedeAgregar(f, x, y, f.getSentidoFicha(), f.getSentidoDir())) {
+//			tablero.agregarFicha(f, x, y, f.getSentidoFicha(), f.getSentidoDir());
+//			return true;
+//		}
 
 		return false;
 	}
