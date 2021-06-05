@@ -16,8 +16,8 @@ public class testTablero {
 		Ficha f = new Ficha(new Terreno( 0,1), new Terreno( 0,3), 0);
 		Ficha f2 = new Ficha(new Terreno( 0,1), new Terreno( 0,3), 0);
 		
-		Assert.assertTrue(j.agregarFichaTablero(f, 3, 4));
-		Assert.assertFalse(j.agregarFichaTablero(f2, 2, 4));
+		Assert.assertTrue(j.agregarFichaTablero(f, 4, 5, 3, 5));
+		Assert.assertFalse(j.agregarFichaTablero(f2, 3, 5, 2, 5));
 	
 	}
 	
@@ -25,11 +25,11 @@ public class testTablero {
 	public void testNoPuedoPonerEnLugarNoCombinado() {
 		Jugador j = new Jugador("rojo");
 		
-		Ficha f = new Ficha(new Terreno( 0,1), new Terreno( 0,3), 1);
-		Ficha f2 = new Ficha(new Terreno( 0,1), new Terreno( 0,3), 2);
+		Ficha f = new Ficha(new Terreno( 0,1), new Terreno( 0,3), 1);// ficha [1-3]
+		Ficha f2 = new Ficha(new Terreno( 0,1), new Terreno( 0,3), 2);// ficha [1-3]
 		
-		Assert.assertTrue(j.agregarFichaTablero(f, 4, 5));
-		Assert.assertFalse(j.agregarFichaTablero(f2, 3, 5));
+		Assert.assertTrue(j.agregarFichaTablero(f, 4, 5, 4, 6));
+		Assert.assertFalse(j.agregarFichaTablero(f2, 3, 6, 3, 7));
 	}
 	
 	@Test
@@ -38,14 +38,11 @@ public class testTablero {
 		
 		Ficha f = new Ficha(new Terreno( 0,1), new Terreno( 0,3), 1);
 		Ficha f2 = new Ficha(new Terreno( 0,1), new Terreno( 0,3), 2);
-		f2.rotarTerreno();
-		Ficha f3 = new Ficha(new Terreno( 0,3), new Terreno( 0,1), 3);
-		f3.rotarFicha();
-		f3.rotarSentido();
 		
-		Assert.assertTrue(j.agregarFichaTablero(f, 3,4));
-		Assert.assertTrue(j.agregarFichaTablero(f2, 1, 4));
-		Assert.assertTrue(j.agregarFichaTablero(f3, 2, 5));
+		j.rotarTerreno(f2);
+		
+		Assert.assertTrue(j.agregarFichaTablero(f, 4,5, 3, 5));
+		Assert.assertTrue(j.agregarFichaTablero(f2, 2, 5, 1,5));
 		
 		
 	}

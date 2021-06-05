@@ -12,7 +12,7 @@ public class Jugador implements Comparable<Jugador> {
 	public Jugador(String color) {
 		// rey = new Rey(color);
 		this.color = color;
-		this.tablero = new Tablero(null);
+		this.tablero = new Tablero();
 	}
 
 	public int elegirFicha(List<Ficha> fichasMesa, int codFicha) {
@@ -47,21 +47,12 @@ public class Jugador implements Comparable<Jugador> {
 	 * public Rey getRey() { return this.rey; }
 	 */
 
-	public boolean agregarFichaTablero(Ficha f, int x, int y) {
-//		if (tablero.puedeAgregar(f, x, y, f.getSentidoFicha(), f.getSentidoDir())) {
-//			tablero.agregarFicha(f, x, y, f.getSentidoFicha(), f.getSentidoDir());
-//			return true;
-//		}
-
-		return false;
+	public boolean agregarFichaTablero(Ficha f, int x0, int y0,int x1, int y1) {
+		return tablero.agregarFichaATablero(f, x0, y0, x1, y1);
 	}
 
 	public void rotarTerreno(Ficha f) {
 		f.rotarTerreno();
-	}
-
-	public void rotarFicha(Ficha f) {
-		f.rotarFicha();
 	}
 
 	public Tablero getTablero() {

@@ -56,10 +56,7 @@ public class Ficha implements Comparable<Ficha>{
 		derecho = a;
 	}
 	
-	public void rotarFicha() {
-		sentidoFicha = sentidoFicha == SENTIDO_HORIZONTAL?SENTIDO_VERTICAL: SENTIDO_HORIZONTAL;
-		
-	}
+
 	public void rotarSentido() {
 		sentidoDir = sentidoDir == SENTIDO_IZQ_TOP?SENTIDO_DER_DOWN: SENTIDO_IZQ_TOP;
 	}

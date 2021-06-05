@@ -82,6 +82,8 @@ public class Terreno {
 	public int getCodAsoc() {
 		return this.codAsociacion;
 	}
+
+
 	
 	
 	
