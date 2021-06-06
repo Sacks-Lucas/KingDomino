@@ -36,7 +36,6 @@ public class JPanelPartida extends JPanel{
 	
 	private Ronda r;
 	private List <Jugador> jugadores;
-	private int fichaSel = -1;
 	
 	public JPanelPartida(Ronda r) {
 		this.r = r;
@@ -51,30 +50,37 @@ public class JPanelPartida extends JPanel{
 				int f= fichaSeleccionada(point.x,point.y);
 				if(f != -1) {
 					System.out.println("seleccione la ficha "+f);
-					fichaSel = f;
-				}else {
-					fichaSel = -1;
-				}
-				
-				if(fichaSel > -1) {
-					
-					//selecciono ficha. Ahora la roto
-					Ficha dd = r.obtenerFichasEnMesa().get(f);
-					if(dd.getX() != dd.getX1()) {
-						dd.setX1(dd.getX());
-						dd.setY1(dd.getY()+Ficha.TAM_TERRENO);
-					}else {
-						dd.setX1(dd.getX()+Ficha.TAM_TERRENO);
-						dd.setY1(dd.getY());
-					}
-
-					
-
+					//rotarFicha(r.obtenerFichasEnMesa().get(f));
+					moverFicha(r.obtenerFichasEnMesa().get(f),point.x,point.y);
 				}
 			}
 
 
+
+
 		});
+	}
+	public void moverFicha(Ficha dd,int x,int y) {
+
+		int aux = 0;
+		if(dd.getX() != dd.getX1()) {
+			dd.setX(x);
+			dd.setY(y);
+		}else {
+			dd.setX(x);
+			dd.setX1(x);
+			dd.setY(y);
+			dd.setY1(y+Ficha.TAM_TERRENO);
+		}
+	}	
+	public void rotarFicha(Ficha dd) {
+		if(dd.getX() != dd.getX1()) {
+			dd.setX1(dd.getX());
+			dd.setY1(dd.getY()+Ficha.TAM_TERRENO);
+		}else {
+			dd.setX1(dd.getX()+Ficha.TAM_TERRENO);
+			dd.setY1(dd.getY());
+		}
 	}
 	public int fichaSeleccionada(int x,int y) {
 		int i=0;
