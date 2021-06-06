@@ -32,10 +32,11 @@ public class JPanelPartida extends JPanel{
 	private Color[] c = {Color.BLUE,Color.BLACK,Color.YELLOW,Color.RED,Color.CYAN};
 	
 	public static final int X_OFFSET_STR_ID_FICHA = 55;
-	public static final int Y_OFFSET_STR_ID_FICHA = 97;
+	public static final int Y_OFFSET_STR_ID_FICHA = 141;
 	
 	private Ronda r;
 	private List <Jugador> jugadores;
+	private int fichaSel = -1;
 	
 	public JPanelPartida(Ronda r) {
 		this.r = r;
@@ -50,20 +51,49 @@ public class JPanelPartida extends JPanel{
 				int f= fichaSeleccionada(point.x,point.y);
 				if(f != -1) {
 					System.out.println("seleccione la ficha "+f);
+					fichaSel = f;
+				}else {
+					fichaSel = -1;
+				}
+				
+				if(fichaSel > -1) {
+					
+					//selecciono ficha. Ahora la roto
+					Ficha dd = r.obtenerFichasEnMesa().get(f);
+					if(dd.getX() != dd.getX1()) {
+						dd.setX1(dd.getX());
+						dd.setY1(dd.getY()+Ficha.TAM_TERRENO);
+					}else {
+						dd.setX1(dd.getX()+Ficha.TAM_TERRENO);
+						dd.setY1(dd.getY());
+					}
+
+					
+
 				}
 			}
 
-			private int fichaSeleccionada(int x,int y) {
-				int s = -1,i=0;
-				for (Ficha f :r.obtenerFichasEnMesa()) {
-					if(f.getX() <= x && x <= f.getX1() && f.getY() <=y && y <= f.getY1()) {
-						return i;
-					}
-					i++;
-				}
-				return s;
-			}
+
 		});
+	}
+	public int fichaSeleccionada(int x,int y) {
+		int i=0;
+		for (Ficha f :r.obtenerFichasEnMesa()) {
+			
+			if(f.getX() == f.getX1()) {
+				if(x <= (f.getX() + Ficha.TAM_TERRENO)  && x >= f.getX() && y >= f.getY() && y <=(Ficha.ANCHO_FICHA+f.getY())) {
+					return i;
+				}
+				
+			}
+			if(f.getY() == f.getY1()){
+				if(x <= (f.getX() + Ficha.ANCHO_FICHA)  && x >= f.getX() && y >= f.getY() && y <= (Ficha.ALTO_FICHA + f.getY())) {
+					return i; 
+				}	
+			}
+			i++;
+		}
+		return -1;
 	}
 	@Override
 	public Dimension getPreferredSize() {
@@ -75,6 +105,7 @@ public class JPanelPartida extends JPanel{
 		Graphics2D g = (Graphics2D) g1;
 		
 		dibujarRonda(g);
+		
 	}
 	
 	private void dibujarRonda(Graphics2D g) {
@@ -101,9 +132,9 @@ public class JPanelPartida extends JPanel{
 			
 			g.setColor(c[1]);
 			g.fillRect(x0, y0, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
-			x0+=Ficha.TAM_TERRENO;
+			//x0+=Ficha.TAM_TERRENO;
 			g.setColor(c[3]);
-			g.fillRect(x0, y0, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
+			g.fillRect(ficha.getX1(),ficha.getY1(), Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
 			
 			
 			

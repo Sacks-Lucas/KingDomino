@@ -17,6 +17,7 @@ public class Ronda {
 	public static final int GAP_ENTRE_FICHAS = 30;
 	
 	public Ronda(ArrayList<Jugador> jug, Mazo mazo) {
+		
 		int cantJugadores = jug.size();
 		fichasEnMesa = new ArrayList<Ficha>(cantJugadores);
 
@@ -60,8 +61,6 @@ public class Ronda {
 		int y0 = Y0_FICHAS_MESA;
 		for (int i = 0; i < ordenJugadores.size(); i++) {
 			Ficha f = mazo.sacarFicha();
-			f.setX(x0);
-			f.setY(y0);
 			fichasEnMesa.add(f);
 		}
 		fichasEnMesa.sort(null);

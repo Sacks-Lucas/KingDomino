@@ -81,12 +81,12 @@ public class Ficha implements Comparable<Ficha>{
 
 	public void setX(int x0) {
 		this.x = x0;
-		this.x1 = x0+ANCHO_FICHA;
+		this.x1 = x0+TAM_TERRENO;
 	}
 
 	public void setY(int y0) {
 		this.y = y0;
-		this.y1 = y0+ALTO_FICHA;
+		this.y1 = y0;
 	}
 
 	public int getX() {
@@ -103,6 +103,14 @@ public class Ficha implements Comparable<Ficha>{
 
 	public int getY1() {
 		return this.y1;
+	}
+
+	public void setX1(int x2) {
+		this.x1=x2;
+	}
+
+	public void setY1(int i) {
+		this.y1 = i;
 	}
 
 	
