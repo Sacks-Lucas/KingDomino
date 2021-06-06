@@ -1,4 +1,5 @@
 package juego;
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ public class Terreno {
 	private int tipo;
 	private List<Terreno> terrenosRelacionados = null;
 	private int codAsociacion=0;
+	
 	public Terreno( int cantCoronas,int valor) {
 		this.tipo = valor;
 		this.cantCoronas = cantCoronas;
@@ -81,6 +83,11 @@ public class Terreno {
 
 	public int getCodAsoc() {
 		return this.codAsociacion;
+	}
+
+	public Color getGraficos() {
+		
+		return null;
 	}
 
 

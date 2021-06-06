@@ -8,10 +8,10 @@ public class App {
 	
 	private ArrayList<Jugador> jugadores;
 	private Mazo mazo;
-	
+	private static final int CANT_FICHAS_X_JUGADOR= 12;
 	public App(int cantJugadores) {
 		jugadores = new ArrayList<Jugador>(cantJugadores);
-		this.mazo = new Mazo(cantJugadores*12);
+		this.mazo = new Mazo(cantJugadores*CANT_FICHAS_X_JUGADOR);
 		
 		for(int i = 0; i < cantJugadores; i++) {
 			jugadores.add(new Jugador(COLORES[i]));
@@ -38,7 +38,4 @@ public class App {
 	public Mazo getMazo() {
 		return this.mazo;
 	}
-	
-	
-
 }
