@@ -74,10 +74,13 @@ public class JPanelPartida extends JPanel{
 						// selecciono un lugar para poner la ficha seleccionada anteriormente!
 						int x = convertirCoordAMatriz(point.x);
 						int y = convertirCoordAMatriz(point.y);
+						Ficha fichaElegida = r.obtenerFichasEnMesa().get(f);
+						int offset_x = fichaElegida.getX() == fichaElegida.getX1()?0:1;
+						int offset_y = fichaElegida.getY() == fichaElegida.getY1()?0:1;
 						if(x >= 0 && x <=Tablero.TAM_TABLERO && y>=0 && y<=Tablero.TAM_TABLERO) {
-							System.out.println("Posición elegida en matriz: "+x+";"+y);
-							jugador.agregarFichaTablero(r.obtenerFichasEnMesa().get(f), x, y, x+1, y);
+							jugador.agregarFichaTablero(r.obtenerFichasEnMesa().get(f), x, y, x+offset_x, y+offset_y);
 						}
+						f=-1;
 					}
 				}
 			}

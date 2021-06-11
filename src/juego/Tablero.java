@@ -52,7 +52,7 @@ public class Tablero {
    
 private boolean dentroDeTablero(int x0, int y0) {
 
-	if(x0>=9 || y0 >= 9) {
+	if(x0>8 || y0 >8) {
 		return false;
 	}
 	if(matrizOcupados[x0][y0] == null ) {
