@@ -39,13 +39,8 @@ public class Jugador implements Comparable<Jugador> {
 
 	@Override
 	public int compareTo(Jugador o) {
-		// return this.rey.compareTo(o.rey);
 		return posicion - o.posicion;
 	}
-
-	/*
-	 * public Rey getRey() { return this.rey; }
-	 */
 
 	public boolean agregarFichaTablero(Ficha f, int x0, int y0,int x1, int y1) {
 		return tablero.agregarFichaATablero(f, x0, y0, x1, y1);

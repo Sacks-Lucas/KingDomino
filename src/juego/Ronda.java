@@ -12,8 +12,8 @@ public class Ronda {
 	//atributos para utilización de Graficos 
 	public static final int X_STR_RONDA = 381;
 	public static final int Y_STR_RONDA = 15;
-	public static final int X0_FICHAS_MESA = 125;
-	public static final int Y0_FICHAS_MESA = 300;
+	public static final int X0_FICHAS_MESA = 697;
+	public static final int Y0_FICHAS_MESA = 492;
 	public static final int GAP_ENTRE_FICHAS = 30;
 	
 	public Ronda(ArrayList<Jugador> jug, Mazo mazo) {

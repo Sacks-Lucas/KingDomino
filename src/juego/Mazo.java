@@ -13,7 +13,7 @@ public class Mazo {
 		fichas = new ArrayList<Ficha>(cant);
 		
 		for (int i = 0; i < cant; i++) {
-			fichas.add(new Ficha(null, null, i));
+			fichas.add(new Ficha(new Terreno(0, 1), new Terreno(0, 2), i));
 		}
 	}
 

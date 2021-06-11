@@ -4,13 +4,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Tablero {
+   public static final int X_CASTLE  = 5;
+   public static final int Y_CASTLE  = 5;
+   public static final int TAM_TABLERO  = 10;
    private int aux1_altura = 4;
    private int aux2_ancho = 4;
    private boolean [] filasUsadas = new boolean [9];
    private boolean [] colUsadas = new boolean [9];
-   private Terreno[][] matrizOcupados = new Terreno [10][10];
-   public static final int X_CASTLE  = 5;
-   public static final int Y_CASTLE  = 5;
+   private Terreno[][] matrizOcupados = new Terreno [TAM_TABLERO][TAM_TABLERO];
+
    private List<List<Terreno>> ListasTerrenos = new LinkedList<List<Terreno>>();
    private int contadorAsoc=1;
    public Tablero() {
@@ -50,6 +52,9 @@ public class Tablero {
    
 private boolean dentroDeTablero(int x0, int y0) {
 
+	if(x0>=9 || y0 >= 9) {
+		return false;
+	}
 	if(matrizOcupados[x0][y0] == null ) {
 		//no existe terreno en x0,y0
 		if(!filasUsadas[x0] && colUsadas[y0] && aux1_altura-1>=0) {
@@ -123,6 +128,11 @@ public boolean validarTerrAdy(int x0,int y0,Terreno t_aux) {
 	@Override
 	public String toString() {
 		return "Tablero [matrizOcupados=" +matrizOcupados + "]";
+	}
+
+	public Terreno obtenerTerreno(int i, int k) {
+		
+		return matrizOcupados[i][k];
 	}
    
    
