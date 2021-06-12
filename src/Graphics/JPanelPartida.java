@@ -52,11 +52,24 @@ public class JPanelPartida extends JPanel{
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(f != -1) {
-					rotarFicha(r.obtenerFichasEnMesa().get(f));
+					r.obtenerFichasEnMesa().get(f).rotarFicha();
+				}
+			}
+		});
+		
+		JButton btn2 = new JButton ("Rotar terreno");
+		btn2.setBounds(1133, 667, 100, 30);
+		add(btn2);
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(f != -1) {
+					r.obtenerFichasEnMesa().get(f).rotarTerreno();
 				}
 			}
 		});
 		addMouseListener((MouseListener) new MouseAdapter() {
+			private int siguienteJugador;
+
 			@Override
 			public void mousePressed(MouseEvent me) {
 				super.mouseClicked(me);
@@ -67,8 +80,6 @@ public class JPanelPartida extends JPanel{
 				if(f == -1) {
 					f= fichaSeleccionada(point.x,point.y);
 					System.out.println("seleccione la ficha "+f);
-					//rotarFicha(r.obtenerFichasEnMesa().get(f));
-//					moverFicha(r.obtenerFichasEnMesa().get(f),point.x,point.y);
 				}else {
 					if(fichaSeleccionada(point.x,point.y) == -1) {
 						// selecciono un lugar para poner la ficha seleccionada anteriormente!
@@ -78,7 +89,16 @@ public class JPanelPartida extends JPanel{
 						int offset_x = fichaElegida.getX() == fichaElegida.getX1()?0:1;
 						int offset_y = fichaElegida.getY() == fichaElegida.getY1()?0:1;
 						if(x >= 0 && x <=Tablero.TAM_TABLERO && y>=0 && y<=Tablero.TAM_TABLERO) {
-							jugador.agregarFichaTablero(r.obtenerFichasEnMesa().get(f), x, y, x+offset_x, y+offset_y);
+							boolean pudoPoner = jugador.agregarFichaTablero(r.obtenerFichasEnMesa().get(f), x, y, x+offset_x, y+offset_y);
+							if(pudoPoner) {
+								r.sacarFicha(f,siguienteJugador);
+								siguienteJugador++;
+								if(siguienteJugador > 3) {
+									siguienteJugador = 0;
+									r.avanzar();
+								}
+								jugador = jugadores.get(siguienteJugador);
+							}
 						}
 						f=-1;
 					}
@@ -88,26 +108,6 @@ public class JPanelPartida extends JPanel{
 	}
 	protected int convertirCoordAMatriz(int x) {
 		return (x-5)/Ficha.TAM_TERRENO;
-	}
-	public void moverFicha(Ficha dd,int x,int y) {
-		if(dd.getX() != dd.getX1()) {
-			dd.setX(x);
-			dd.setY(y);
-		}else {
-			dd.setX(x);
-			dd.setX1(x);
-			dd.setY(y);
-			dd.setY1(y+Ficha.TAM_TERRENO);
-		}
-	}	
-	public void rotarFicha(Ficha dd) {
-		if(dd.getX() != dd.getX1()) {
-			dd.setX1(dd.getX());
-			dd.setY1(dd.getY()+Ficha.TAM_TERRENO);
-		}else {
-			dd.setX1(dd.getX()+Ficha.TAM_TERRENO);
-			dd.setY1(dd.getY());
-		}
 	}
 	public int fichaSeleccionada(int x,int y) {
 		int i=0;
@@ -137,8 +137,11 @@ public class JPanelPartida extends JPanel{
 		super.paintComponent(g1);
 		Graphics2D g = (Graphics2D) g1;
 		dibujarRonda(g);
+		int i =0;
 		for (Jugador j : jugadores) {
 			dibujarTablero(g,j);
+			g.drawString(j.getColor()+" - "+j.getPosicion(), 1194,37+i);
+			i+=20;
 		}
 	}
 	

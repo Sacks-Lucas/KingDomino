@@ -7,6 +7,7 @@ public class Ronda {
 	private List<Ficha> fichasEnMesa = null;
 	private int nroRonda = 0;
 	private ArrayList<Jugador> ordenJugadores = null;
+	private Mazo mazo;
 
 	
 	//atributos para utilización de Graficos 
@@ -17,7 +18,7 @@ public class Ronda {
 	public static final int GAP_ENTRE_FICHAS = 30;
 	
 	public Ronda(ArrayList<Jugador> jug, Mazo mazo) {
-		
+		this.mazo = mazo;
 		int cantJugadores = jug.size();
 		fichasEnMesa = new ArrayList<Ficha>(cantJugadores);
 
@@ -26,7 +27,7 @@ public class Ronda {
 		for (int i = 0; i < cantJugadores; i++) {
 			this.ordenJugadores.add(jug.get(i));
 		}
-		this.ponerFichasEnMesa(mazo);
+		ponerFichasEnMesa();
 		fichasEnMesa.sort(null);
 	}
 
@@ -35,7 +36,7 @@ public class Ronda {
 
 		fichasEnMesa.clear();
 		ordenJugadores.sort(null);
-
+		ponerFichasEnMesa();
 	}
 
 	public int getRonda() {
@@ -47,8 +48,8 @@ public class Ronda {
 	}
 
 	public Ficha sacarFicha(int indexFicha, int indexJugador) {
-		ordenJugadores.get(indexJugador).setPosicion(indexFicha);
-		return fichasEnMesa.get(indexFicha);
+		ordenJugadores.get(indexJugador).setPosicion(fichasEnMesa.get(indexFicha).getCode());
+		return fichasEnMesa.remove(indexFicha);
 
 	}
 
@@ -56,7 +57,7 @@ public class Ronda {
 		return ordenJugadores;
 	}
 
-	public void ponerFichasEnMesa(Mazo mazo) {
+	public void ponerFichasEnMesa() {
 		int x0 = X0_FICHAS_MESA;
 		int y0 = Y0_FICHAS_MESA;
 		for (int i = 0; i < ordenJugadores.size(); i++) {

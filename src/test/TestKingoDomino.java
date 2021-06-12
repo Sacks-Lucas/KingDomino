@@ -50,7 +50,7 @@ public class TestKingoDomino {
 		//Fin ronda.
 		
 		rondas.avanzar(); // avanzo la siguiente ronda
-		rondas.ponerFichasEnMesa(juego.getMazo());
+		rondas.ponerFichasEnMesa();
 		System.out.println("INICIO RONDA "+rondas.getRonda());
 		System.out.println("Fichas de Ronda:  "+rondas.obtenerFichasEnMesa());
 		System.out.println("Orden Ronda:  "+rondas.getOrdenJ());
@@ -74,7 +74,7 @@ public class TestKingoDomino {
 		//Fin ronda.
 		
 		rondas.avanzar(); // avanzo la siguiente ronda
-		rondas.ponerFichasEnMesa(juego.getMazo());
+		rondas.ponerFichasEnMesa();
 		
 		System.out.println("INICIO RONDA "+rondas.getRonda());
 		System.out.println("Fichas de Ronda:  "+rondas.obtenerFichasEnMesa());
@@ -99,7 +99,7 @@ public class TestKingoDomino {
 		//Fin ronda.
 		
 		rondas.avanzar(); // avanzo la siguiente ronda
-		rondas.ponerFichasEnMesa(juego.getMazo());
+		rondas.ponerFichasEnMesa();
 		
 		System.out.println("INICIO RONDA "+rondas.getRonda());
 		System.out.println("Fichas de Ronda:  "+rondas.obtenerFichasEnMesa());
@@ -124,7 +124,7 @@ public class TestKingoDomino {
 		//Fin ronda.
 		
 		rondas.avanzar(); // avanzo la siguiente ronda
-		rondas.ponerFichasEnMesa(juego.getMazo());
+		rondas.ponerFichasEnMesa();
 		
 	}
 

@@ -48,6 +48,15 @@ public class Ficha implements Comparable<Ficha>{
 		derecho = a;
 	}
 	
+	public void rotarFicha() {
+		if(this.x != this.x1) {
+			this.x1 = this.x;
+			y1=y+TAM_TERRENO;
+		}else {
+			x1=x+TAM_TERRENO;
+			y1=y;
+		}
+	}
 
 	public Terreno getTipoTerrenoIzq() {
 		return this.izquierdo;

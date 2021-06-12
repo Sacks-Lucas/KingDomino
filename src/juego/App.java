@@ -12,7 +12,7 @@ public class App {
 	public App(int cantJugadores) {
 		jugadores = new ArrayList<Jugador>(cantJugadores);
 		this.mazo = new Mazo(cantJugadores*CANT_FICHAS_X_JUGADOR);
-		
+		mezclarMazo();
 		for(int i = 0; i < cantJugadores; i++) {
 			jugadores.add(new Jugador(COLORES[i]));
 		}
