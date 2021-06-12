@@ -12,13 +12,16 @@ public class Tablero {
    private boolean [] filasUsadas = new boolean [9];
    private boolean [] colUsadas = new boolean [9];
    private Terreno[][] matrizOcupados = new Terreno [TAM_TABLERO][TAM_TABLERO];
-
+   private int x0_tablero;
+   private int y0_tablero;
    private List<List<Terreno>> ListasTerrenos = new LinkedList<List<Terreno>>();
    private int contadorAsoc=1;
-   public Tablero() {
+   public Tablero(int aux, int aux2) {
 	   matrizOcupados[X_CASTLE][X_CASTLE] = new Terreno(0, -1);
 	   filasUsadas[X_CASTLE] = true;
 	   colUsadas[X_CASTLE] = true;
+	   this.x0_tablero = aux;
+	   this.y0_tablero = aux2;
    }
    
    public boolean agregarFichaATablero(Ficha f,int x0,int y0,int x1,int y1) {
@@ -133,6 +136,22 @@ public boolean validarTerrAdy(int x0,int y0,Terreno t_aux) {
 	public Terreno obtenerTerreno(int i, int k) {
 		
 		return matrizOcupados[i][k];
+	}
+
+	public int getY0_tablero() {
+		return y0_tablero;
+	}
+
+	public void setY0_tablero(int y0_tablero) {
+		this.y0_tablero = y0_tablero;
+	}
+
+	public int getX0_tablero() {
+		return x0_tablero;
+	}
+
+	public void setX0_tablero(int x0_tablero) {
+		this.x0_tablero = x0_tablero;
 	}
    
    

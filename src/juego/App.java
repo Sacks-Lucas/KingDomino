@@ -13,8 +13,9 @@ public class App {
 		jugadores = new ArrayList<Jugador>(cantJugadores);
 		this.mazo = new Mazo(cantJugadores*CANT_FICHAS_X_JUGADOR);
 		mezclarMazo();
+		int aux[][] = {{0+50,0+50},{Ficha.TAM_TERRENO*5+300,0+50},{0+50,Ficha.TAM_TERRENO*5+200},{Ficha.TAM_TERRENO*5+300,Ficha.TAM_TERRENO*5+200}};
 		for(int i = 0; i < cantJugadores; i++) {
-			jugadores.add(new Jugador(COLORES[i]));
+			jugadores.add(new Jugador(COLORES[i],new Tablero(aux[i][0],aux[i][1])));
 		}
 	}
 

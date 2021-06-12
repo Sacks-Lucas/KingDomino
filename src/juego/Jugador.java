@@ -9,10 +9,10 @@ public class Jugador implements Comparable<Jugador> {
 	private int posicion;
 
 	// cambiar Rey x variable posición
-	public Jugador(String color) {
+	public Jugador(String color, Tablero tablero2) {
 		// rey = new Rey(color);
 		this.color = color;
-		this.tablero = new Tablero();
+		this.tablero = tablero2;
 	}
 
 	public int elegirFicha(List<Ficha> fichasMesa, int codFicha) {

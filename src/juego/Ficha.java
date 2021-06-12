@@ -9,8 +9,8 @@ public class Ficha implements Comparable<Ficha>{
 	private int x1;
 	private int y1;
 
-	public static final int ANCHO_FICHA = 120;
-	public static final int ALTO_FICHA = 60;
+	public static final int ANCHO_FICHA = 50;
+	public static final int ALTO_FICHA = 25;
 	public static final int TAM_TERRENO = ANCHO_FICHA/2;
 	
 	public Ficha(Terreno izquierdo, Terreno derecho, int numero) {

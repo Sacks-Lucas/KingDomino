@@ -34,9 +34,10 @@ public class JPanelPartida extends JPanel{
 	///////////////////////
 	private Color[] c = {Color.BLUE,Color.YELLOW,Color.RED,Color.RED,Color.GREEN};
 	
-	public static final int X_OFFSET_STR_ID_FICHA = 55;
-	public static final int Y_OFFSET_STR_ID_FICHA = 141;
-	
+	public static final int X_OFFSET_STR_ID_FICHA = 957 - Ronda.X0_FICHAS_MESA;
+	public static final int Y_OFFSET_STR_ID_FICHA = 649 - Ronda.Y0_FICHAS_MESA;
+	public static final int X0_TABLEROS = 0;
+	public static final int Y0_TABLEROS = 0;
 	private Ronda r;
 	private List <Jugador> jugadores;
 	private int f = -1;
@@ -83,11 +84,15 @@ public class JPanelPartida extends JPanel{
 				}else {
 					if(fichaSeleccionada(point.x,point.y) == -1) {
 						// selecciono un lugar para poner la ficha seleccionada anteriormente!
-						int x = convertirCoordAMatriz(point.x);
-						int y = convertirCoordAMatriz(point.y);
+						
+						int x = convertirCoordAMatriz(point.x,jugador.getTablero().getX0_tablero());
+						int y = convertirCoordAMatriz(point.y,jugador.getTablero().getY0_tablero());
+						System.out.println("Jugando jugador: "+siguienteJugador+" datos tablero: "+jugador.getTablero().getX0_tablero()+" - "+jugador.getTablero().getY0_tablero());
 						Ficha fichaElegida = r.obtenerFichasEnMesa().get(f);
 						int offset_x = fichaElegida.getX() == fichaElegida.getX1()?0:1;
 						int offset_y = fichaElegida.getY() == fichaElegida.getY1()?0:1;
+						System.out.println("Jugando jugador: "+siguienteJugador+" datos tablero: "+jugador.getTablero().getX0_tablero()+" - "+jugador.getTablero().getY0_tablero());
+						System.out.println("Datos xy seleccionado: "+x+"  "+y);
 						if(x >= 0 && x <=Tablero.TAM_TABLERO && y>=0 && y<=Tablero.TAM_TABLERO) {
 							boolean pudoPoner = jugador.agregarFichaTablero(r.obtenerFichasEnMesa().get(f), x, y, x+offset_x, y+offset_y);
 							if(pudoPoner) {
@@ -106,8 +111,8 @@ public class JPanelPartida extends JPanel{
 			}
 		});
 	}
-	protected int convertirCoordAMatriz(int x) {
-		return (x-5)/Ficha.TAM_TERRENO;
+	protected int convertirCoordAMatriz(int x, int offsetTablero) {
+		return (x-offsetTablero)/Ficha.TAM_TERRENO;
 	}
 	public int fichaSeleccionada(int x,int y) {
 		int i=0;
@@ -139,15 +144,17 @@ public class JPanelPartida extends JPanel{
 		dibujarRonda(g);
 		int i =0;
 		for (Jugador j : jugadores) {
+			g.drawString("Tablero: "+j.getColor(), j.getTablero().getX0_tablero(),j.getTablero().getY0_tablero()-10);
 			dibujarTablero(g,j);
 			g.drawString(j.getColor()+" - "+j.getPosicion(), 1194,37+i);
 			i+=20;
+			
 		}
 	}
 	
 	private void dibujarTablero(Graphics2D g,Jugador j) {
-		int aux_ini_x = 5;
-		int aux_ini_y = 5;
+		int aux_ini_x = j.getTablero().getX0_tablero();
+		int aux_ini_y = j.getTablero().getY0_tablero();
 		for (int i = 0; i < Tablero.TAM_TABLERO; i++) {
 			for (int k = 0; k < Tablero.TAM_TABLERO; k++) {
 				Terreno  t = j.getTablero().obtenerTerreno(i,k);
