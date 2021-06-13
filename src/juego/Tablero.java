@@ -1,9 +1,11 @@
 package juego;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Tablero {
+public class Tablero implements Drawable{
    public static final int X_CASTLE  = 5;
    public static final int Y_CASTLE  = 5;
    public static final int TAM_TABLERO  = 10;
@@ -17,7 +19,7 @@ public class Tablero {
    private List<List<Terreno>> ListasTerrenos = new LinkedList<List<Terreno>>();
    private int contadorAsoc=1;
    public Tablero(int aux, int aux2) {
-	   matrizOcupados[X_CASTLE][X_CASTLE] = new Terreno(0, -1);
+	   matrizOcupados[X_CASTLE][X_CASTLE] = new Terreno(0, -1,Color.BLACK);
 	   filasUsadas[X_CASTLE] = true;
 	   colUsadas[X_CASTLE] = true;
 	   this.x0_tablero = aux;
@@ -79,7 +81,7 @@ private boolean dentroDeTablero(int x0, int y0) {
 
 public boolean validarTerrAdy(int x0,int y0,Terreno t_aux) {
 	   boolean combino=false,combinaCastillo=false;
-	   Terreno a0 = new Terreno(t_aux.getCoronas(),t_aux.getTipo());
+	   Terreno a0 = new Terreno(t_aux.getCoronas(),t_aux.getTipo(),t_aux.getColor());
 	   Terreno[] a = {matrizOcupados[x0-1][y0],
 		   		  matrizOcupados[x0+1][y0],
 		   		  matrizOcupados[x0][y0-1],
@@ -152,6 +154,22 @@ public boolean validarTerrAdy(int x0,int y0,Terreno t_aux) {
 
 	public void setX0_tablero(int x0_tablero) {
 		this.x0_tablero = x0_tablero;
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		for (int i = 0; i < TAM_TABLERO; i++) {
+			for (int k = 0; k < TAM_TABLERO; k++) {
+				if(matrizOcupados[i][k] != null) {
+					if((matrizOcupados[i][k]).getTipo() != -1) {
+						g.setColor((matrizOcupados[i][k]).getColor());
+					}else {
+						g.setColor(Color.black);
+					}
+					g.fillRect(this.x0_tablero+i*Ficha.TAM_TERRENO,this.y0_tablero+k*Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
+				}
+			}
+		}
 	}
    
    

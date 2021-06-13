@@ -8,10 +8,12 @@ public class Terreno {
 	private int tipo;
 	private List<Terreno> terrenosRelacionados = null;
 	private int codAsociacion=0;
+	private Color color;
 	
-	public Terreno( int cantCoronas,int valor) {
+	public Terreno( int cantCoronas,int valor,Color c) {
 		this.tipo = valor;
 		this.cantCoronas = cantCoronas;
+		this.color = c;
 	}
 	
 	public void setCodAsoc(int n) {
@@ -61,7 +63,7 @@ public class Terreno {
 
 	@Override
 	protected Terreno clone()  {
-		Terreno t = new Terreno (this.cantCoronas,this.tipo);
+		Terreno t = new Terreno (this.cantCoronas,this.tipo,this.color);
 		return t;
 	}
 
@@ -88,6 +90,11 @@ public class Terreno {
 	public Color getGraficos() {
 		
 		return null;
+	}
+
+	public Color getColor() {
+		// TODO Auto-generated method stub
+		return this.color;
 	}
 
 

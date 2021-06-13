@@ -1,8 +1,9 @@
 package juego;
 
+import java.awt.Graphics2D;
 import java.util.List;
 
-public class Jugador implements Comparable<Jugador> {
+public class Jugador implements Comparable<Jugador>,Drawable {
 	// private Rey rey;
 	private String color;
 	private Tablero tablero;
@@ -15,8 +16,27 @@ public class Jugador implements Comparable<Jugador> {
 		this.tablero = tablero2;
 	}
 
-	public int elegirFicha(List<Ficha> fichasMesa, int codFicha) {
-		return fichasMesa.indexOf(new Ficha(null, null, codFicha));
+	public int elegirFicha(List<Ficha> fichasMesa, int x, int y) {
+		
+		int i=0;
+		for (Ficha f : fichasMesa) {
+			
+			if(f.getX() == f.getX1()) {
+				if(x <= (f.getX() + Ficha.TAM_TERRENO)  && x >= f.getX() && y >= f.getY() && y <=(Ficha.ANCHO_FICHA+f.getY())) {
+					f.seleccionar();
+					return i;
+				}
+				
+			}
+			if(f.getY() == f.getY1()){
+				if(x <= (f.getX() + Ficha.ANCHO_FICHA)  && x >= f.getX() && y >= f.getY() && y <= (Ficha.ALTO_FICHA + f.getY())) {
+					f.seleccionar();
+					return i; 
+				}	
+			}
+			i++;
+		}
+		return -1;
 	}
 
 	@Override
@@ -52,6 +72,16 @@ public class Jugador implements Comparable<Jugador> {
 
 	public Tablero getTablero() {
 		return this.tablero;
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		g.drawString("Tablero: "+getColor(), getTablero().getX0_tablero(),getTablero().getY0_tablero()-10);
+		getTablero().draw(g); // dibuja tablero
+	}
+
+	public void deseleccionarFicha(List<Ficha> list, int f) {
+		list.get(f).deseleccionar();
 	}
 
 }

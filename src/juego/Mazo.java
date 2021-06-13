@@ -1,5 +1,6 @@
 package juego;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Mazo {
@@ -13,7 +14,7 @@ public class Mazo {
 		fichas = new ArrayList<Ficha>(cant);
 		
 		for (int i = 0; i < cant; i++) {
-			fichas.add(new Ficha(new Terreno(0, 1), new Terreno(0, 2), i));
+			fichas.add(new Ficha(new Terreno(0, 1,Color.YELLOW), new Terreno(0, 2,Color.RED), i));
 		}
 	}
 

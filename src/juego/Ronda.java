@@ -1,9 +1,12 @@
 package juego;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ronda {
+public class Ronda implements Drawable{
 	private List<Ficha> fichasEnMesa = null;
 	private int nroRonda = 0;
 	private ArrayList<Jugador> ordenJugadores = null;
@@ -72,5 +75,21 @@ public class Ronda {
 			x0 += Ficha.ANCHO_FICHA + GAP_ENTRE_FICHAS;
 		}
 		
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		Font f = g.getFont();
+		
+		g.setFont(new Font("TimesRoman", Font.BOLD, 16));
+		g.drawString("Ronda "+this.nroRonda, X_STR_RONDA, Y_STR_RONDA);		
+		Color ini = g.getColor();
+	
+		for (Ficha ficha : obtenerFichasEnMesa()) {
+			ficha.draw(g);
+		}
+		
+		g.setColor(ini);
+		g.setFont(f);	
 	}
 }
