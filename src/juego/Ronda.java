@@ -11,6 +11,7 @@ public class Ronda implements Drawable{
 	private int nroRonda = 0;
 	private ArrayList<Jugador> ordenJugadores = null;
 	private Mazo mazo;
+	private int jugadorActual=0;
 
 	
 	//atributos para utilización de Graficos 
@@ -34,9 +35,8 @@ public class Ronda implements Drawable{
 		fichasEnMesa.sort(null);
 	}
 
-	public void avanzar() {
+	public void siguienteRonda() {
 		nroRonda++;
-
 		fichasEnMesa.clear();
 		ordenJugadores.sort(null);
 		ponerFichasEnMesa();
@@ -53,7 +53,6 @@ public class Ronda implements Drawable{
 	public Ficha sacarFicha(int indexFicha, int indexJugador) {
 		ordenJugadores.get(indexJugador).setPosicion(fichasEnMesa.get(indexFicha).getCode());
 		return fichasEnMesa.remove(indexFicha);
-
 	}
 
 	public List<Jugador> getOrdenJ() {
@@ -91,5 +90,19 @@ public class Ronda implements Drawable{
 		
 		g.setColor(ini);
 		g.setFont(f);	
+	}
+	public Jugador siguienteTurno(int f) {
+		obtenerFichasEnMesa().get(f).deseleccionar();
+		sacarFicha(f,jugadorActual);
+		this.jugadorActual++;
+		if( jugadorActual > ordenJugadores.size()-1) {
+			siguienteRonda();
+			jugadorActual=0;
+		}
+		return this.ordenJugadores.get(jugadorActual);
+	}
+	
+	public Ficha obtenerFichaSeleccionada(int f) {
+		return obtenerFichasEnMesa().get(f);
 	}
 }

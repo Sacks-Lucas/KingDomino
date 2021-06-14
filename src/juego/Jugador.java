@@ -4,14 +4,13 @@ import java.awt.Graphics2D;
 import java.util.List;
 
 public class Jugador implements Comparable<Jugador>,Drawable {
-	// private Rey rey;
+
 	private String color;
 	private Tablero tablero;
 	private int posicion;
 
-	// cambiar Rey x variable posición
 	public Jugador(String color, Tablero tablero2) {
-		// rey = new Rey(color);
+
 		this.color = color;
 		this.tablero = tablero2;
 	}
@@ -77,7 +76,7 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 	@Override
 	public void draw(Graphics2D g) {
 		g.drawString("Tablero: "+getColor(), getTablero().getX0_tablero(),getTablero().getY0_tablero()-10);
-		getTablero().draw(g); // dibuja tablero
+		getTablero().draw(g);
 	}
 
 	public void deseleccionarFicha(List<Ficha> list, int f) {

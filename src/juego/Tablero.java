@@ -8,16 +8,17 @@ import java.util.List;
 public class Tablero implements Drawable{
    public static final int X_CASTLE  = 5;
    public static final int Y_CASTLE  = 5;
-   public static final int TAM_TABLERO  = 10;
+   public static final int TAM_TABLERO  = 11;
    private int aux1_altura = 4;
    private int aux2_ancho = 4;
-   private boolean [] filasUsadas = new boolean [9];
-   private boolean [] colUsadas = new boolean [9];
+   private boolean [] filasUsadas = new boolean [10];
+   private boolean [] colUsadas = new boolean [10];
    private Terreno[][] matrizOcupados = new Terreno [TAM_TABLERO][TAM_TABLERO];
    private int x0_tablero;
    private int y0_tablero;
    private List<List<Terreno>> ListasTerrenos = new LinkedList<List<Terreno>>();
    private int contadorAsoc=1;
+   
    public Tablero(int aux, int aux2) {
 	   matrizOcupados[X_CASTLE][X_CASTLE] = new Terreno(0, -1,Color.BLACK);
 	   filasUsadas[X_CASTLE] = true;
@@ -26,14 +27,32 @@ public class Tablero implements Drawable{
 	   this.y0_tablero = aux2;
    }
    
+   public void actualizarLimites(int x0,int y0) {
+		if(!filasUsadas[x0] ) {
+			//la fila no está usada, entonces resto altura y pongo la fila en uso
+			aux1_altura--;
+			filasUsadas[x0] = true;
+		}
+		
+		if(!colUsadas[y0]) {
+			//la col no está usada, entonces resto el ancho y pongo la col en uso
+			aux2_ancho--;
+			colUsadas[y0] = true;
+		}
+   }
+   
    public boolean agregarFichaATablero(Ficha f,int x0,int y0,int x1,int y1) {
 	   boolean aux1 = false,aux2=false;
 	   if(dentroDeTablero(x0,  y0) && dentroDeTablero(x1,  y1)) {
-		   
+		   System.out.println("entró");
 		   aux1 = validarTerrAdy(x0, y0, f.getTipoTerrenoIzq());
 		   aux2 = validarTerrAdy(x1, y1, f.getTipoTerrenoDer());
 		   
 		   if(aux1 && !aux2) {
+			   
+				//no existe terreno en x0,y0			   
+			    actualizarLimites(x0, y0);
+			    actualizarLimites(x1, y1);
 			   	f.getTipoTerrenoDer().crearRelacion();
 			   	f.getTipoTerrenoDer().setCodAsoc(contadorAsoc);
 				ListasTerrenos.add(f.getTipoTerrenoDer().getGrupo());
@@ -41,6 +60,9 @@ public class Tablero implements Drawable{
 				matrizOcupados[x1][y1] = f.getTipoTerrenoDer();
 				return true;
 		   } else if (!aux1 && aux2) {
+			   
+			    actualizarLimites(x0, y0);
+			    actualizarLimites(x1, y1);
 			   	f.getTipoTerrenoIzq().crearRelacion();
 			   	f.getTipoTerrenoIzq().setCodAsoc(contadorAsoc);
 				ListasTerrenos.add(f.getTipoTerrenoIzq().getGrupo());
@@ -48,33 +70,54 @@ public class Tablero implements Drawable{
 				matrizOcupados[x0][y0] = f.getTipoTerrenoIzq();
 				return true; 
 		   }else if (aux1 && aux2) {
-			   return true;
+			    actualizarLimites(x0, y0);
+			    actualizarLimites(x1, y1);
+				return true;
 		   }
 		  
 	   }
+	   System.out.println("paso por aca");
 	   return false;  
    }
    
 private boolean dentroDeTablero(int x0, int y0) {
-
-	if(x0>8 || y0 >8) {
+	System.out.println(""+x0+" - "+y0);
+	if(x0>9 || y0 >9 || x0 < 1 || y0 < 1) {
 		return false;
 	}
 	if(matrizOcupados[x0][y0] == null ) {
-		//no existe terreno en x0,y0
-		if(!filasUsadas[x0] && colUsadas[y0] && aux1_altura-1>=0) {
-			//la fila no está usada, entonces resto altura y pongo la fila en uso
-			aux1_altura--;
-			filasUsadas[x0] = true;
-			return true;
-		}else if(filasUsadas[x0] && !colUsadas[y0] && aux2_ancho-1>=0) {
-			//la col no está usada, entonces resto el ancho y pongo la col en uso
-			aux2_ancho--;
-			colUsadas[y0] = true;
-			return true;
-		}else if(filasUsadas[x0] && colUsadas[y0]) {
+		
+		
+		if(!filasUsadas[x0] && colUsadas[y0] && aux1_altura > 0 ) {
 			return true;
 		}
+		if(filasUsadas[x0] && !colUsadas[y0] && aux2_ancho > 0 ) {
+			return true;
+		}		
+		
+		if(filasUsadas[x0] && colUsadas[y0]) {
+			return true;
+		}
+		
+		if(!filasUsadas[x0] && !colUsadas[y0] && aux2_ancho > 0 && aux1_altura > 0) {
+			return true;
+		}
+		
+		
+//		//no existe terreno en x0,y0
+//		if(!filasUsadas[x0] && colUsadas[y0] ) {
+//			//la fila no está usada, entonces resto altura y pongo la fila en uso
+////			aux1_altura--;
+////			filasUsadas[x0] = true;
+//			return true;
+//		}else if(filasUsadas[x0] && !colUsadas[y0] ) {
+//			//la col no está usada, entonces resto el ancho y pongo la col en uso
+////			aux2_ancho--;
+////			colUsadas[y0] = true;
+//			return true;
+//		}else if(filasUsadas[x0] && colUsadas[y0]) {
+//			return true;
+//		}
 	}
 	return false;
 }

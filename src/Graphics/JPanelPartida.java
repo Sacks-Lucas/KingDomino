@@ -38,22 +38,22 @@ public class JPanelPartida extends JPanel{
 	public static final int Y_OFFSET_STR_ID_FICHA = 649 - Ronda.Y0_FICHAS_MESA;
 	public static final int X0_TABLEROS = 0;
 	public static final int Y0_TABLEROS = 0;
-	private Ronda r;
+	private Ronda ronda;
 	private List <Jugador> jugadores;
-	private int f = -1;
+	private int idFichaSel = -1;
 	private Jugador jugador;
 	public JPanelPartida(Ronda ronda) {
-		this.r = ronda;
-		this.jugadores = r.getOrdenJ();
-		this.jugador = r.getOrdenJ().get(0);
+		this.ronda = ronda;
+		this.jugadores = ronda.getOrdenJ();
+		this.jugador = ronda.getOrdenJ().get(0);
 		setLayout(null);
 		JButton btn = new JButton ("Rotar");
 		btn.setBounds(966, 667, 100, 30);
 		add(btn);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(f != -1) {
-					r.obtenerFichasEnMesa().get(f).rotarFicha();
+				if(idFichaSel != -1) {
+					ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
 				}
 			}
 		});
@@ -63,13 +63,12 @@ public class JPanelPartida extends JPanel{
 		add(btn2);
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(f != -1) {
-					r.obtenerFichasEnMesa().get(f).rotarTerreno();
+				if(idFichaSel != -1) {
+					ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
 				}
 			}
 		});
 		addMouseListener((MouseListener) new MouseAdapter() {
-			private int siguienteJugador;
 
 			@Override
 			public void mousePressed(MouseEvent me) {
@@ -78,42 +77,28 @@ public class JPanelPartida extends JPanel{
 				System.out.print("Click en: [" + (point.x ) + ", ");
 				System.out.println(point.y  + "]");
 				
-				if(f == -1) {
-					f= jugador.elegirFicha(r.obtenerFichasEnMesa(),point.x,point.y);
+				if(idFichaSel == -1) {
+					idFichaSel= jugador.elegirFicha(ronda.obtenerFichasEnMesa(),point.x,point.y);
 				}else {
-					int aux_f = f;
-					f = jugador.elegirFicha(r.obtenerFichasEnMesa(),point.x,point.y);
-					if(f == -1) {
+					int aux_f = idFichaSel;
+					idFichaSel = jugador.elegirFicha(ronda.obtenerFichasEnMesa(),point.x,point.y);
+					if(idFichaSel == -1) {
 						// selecciono un lugar para poner la ficha seleccionada anteriormente!
-						f = aux_f;
+						idFichaSel = aux_f;
 						int x = convertirCoordAMatriz(point.x,jugador.getTablero().getX0_tablero());
 						int y = convertirCoordAMatriz(point.y,jugador.getTablero().getY0_tablero());
-//						System.out.println("Jugando jugador: "+siguienteJugador+" datos tablero: "+jugador.getTablero().getX0_tablero()+" - "+jugador.getTablero().getY0_tablero());
-						Ficha fichaElegida = r.obtenerFichasEnMesa().get(f);
+						Ficha fichaElegida = ronda.obtenerFichaSeleccionada(idFichaSel);
 						int offset_x = fichaElegida.getX() == fichaElegida.getX1()?0:1;
 						int offset_y = fichaElegida.getY() == fichaElegida.getY1()?0:1;
-//						System.out.println("Jugando jugador: "+siguienteJugador+" datos tablero: "+jugador.getTablero().getX0_tablero()+" - "+jugador.getTablero().getY0_tablero());
-//						System.out.println("Datos xy seleccionado: "+x+"  "+y);
-						if(x >= 0 && x <=Tablero.TAM_TABLERO && y>=0 && y<=Tablero.TAM_TABLERO) {
-							boolean pudoPoner = jugador.agregarFichaTablero(r.obtenerFichasEnMesa().get(f), x, y, x+offset_x, y+offset_y);
-							if(pudoPoner) {
-								jugador.deseleccionarFicha(r.obtenerFichasEnMesa(),f);
-								r.sacarFicha(f,siguienteJugador);
-								siguienteJugador++;
-								if(siguienteJugador > 3) {
-									siguienteJugador = 0;
-									r.avanzar();
-								}
-								
-								jugador = jugadores.get(siguienteJugador);
-								f=-1;
-							}
+						boolean pudoPoner = jugador.agregarFichaTablero(fichaElegida, x, y, x+offset_x, y+offset_y);
+						if(pudoPoner) {
+							jugador = ronda.siguienteTurno(idFichaSel);
+							idFichaSel=-1; // la ficha se deselecciona cuando se pudo poner en el tablero
 						}
-						
-					}else if(aux_f != f) {
+
+					}else if(aux_f != idFichaSel) {
 						//Seleccionó otra ficha. Quito seleccion de ficha anterior
-						jugador.deseleccionarFicha(r.obtenerFichasEnMesa(),aux_f);
-						
+						jugador.deseleccionarFicha(ronda.obtenerFichasEnMesa(),aux_f); 
 					}
 				}
 			}
@@ -131,7 +116,7 @@ public class JPanelPartida extends JPanel{
 	protected void paintComponent(Graphics g1) {
 		super.paintComponent(g1);
 		Graphics2D g = (Graphics2D) g1;
-		r.draw(g);
+		ronda.draw(g);
 		int i =0;
 		for (Jugador j : jugadores) {
 			j.draw(g);
