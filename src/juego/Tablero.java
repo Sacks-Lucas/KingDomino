@@ -80,49 +80,32 @@ public class Tablero implements Drawable{
 	   return false;  
    }
    
-private boolean dentroDeTablero(int x0, int y0) {
-	System.out.println(""+x0+" - "+y0);
-	if(x0>9 || y0 >9 || x0 < 1 || y0 < 1) {
+   private boolean dentroDeTablero(int x0, int y0) {
+		if(x0>9 || y0 >9 || x0 < 1 || y0 < 1) {
+			return false;
+		}
+		if(matrizOcupados[x0][y0] == null ) {
+			
+			
+			if(!filasUsadas[x0] && colUsadas[y0] && aux1_altura > 0 ) {
+				return true;
+			}
+			if(filasUsadas[x0] && !colUsadas[y0] && aux2_ancho > 0 ) {
+				return true;
+			}		
+			
+			if(filasUsadas[x0] && colUsadas[y0]) {
+				return true;
+			}
+			
+			if(!filasUsadas[x0] && !colUsadas[y0] && aux2_ancho > 0 && aux1_altura > 0) {
+				return true;
+			}
+		}
 		return false;
-	}
-	if(matrizOcupados[x0][y0] == null ) {
-		
-		
-		if(!filasUsadas[x0] && colUsadas[y0] && aux1_altura > 0 ) {
-			return true;
-		}
-		if(filasUsadas[x0] && !colUsadas[y0] && aux2_ancho > 0 ) {
-			return true;
-		}		
-		
-		if(filasUsadas[x0] && colUsadas[y0]) {
-			return true;
-		}
-		
-		if(!filasUsadas[x0] && !colUsadas[y0] && aux2_ancho > 0 && aux1_altura > 0) {
-			return true;
-		}
-		
-		
-//		//no existe terreno en x0,y0
-//		if(!filasUsadas[x0] && colUsadas[y0] ) {
-//			//la fila no está usada, entonces resto altura y pongo la fila en uso
-////			aux1_altura--;
-////			filasUsadas[x0] = true;
-//			return true;
-//		}else if(filasUsadas[x0] && !colUsadas[y0] ) {
-//			//la col no está usada, entonces resto el ancho y pongo la col en uso
-////			aux2_ancho--;
-////			colUsadas[y0] = true;
-//			return true;
-//		}else if(filasUsadas[x0] && colUsadas[y0]) {
-//			return true;
-//		}
-	}
-	return false;
-}
+   }
 
-public boolean validarTerrAdy(int x0,int y0,Terreno t_aux) {
+	public boolean validarTerrAdy(int x0,int y0,Terreno t_aux) {
 	   boolean combino=false,combinaCastillo=false;
 	   Terreno a0 = new Terreno(t_aux.getCoronas(),t_aux.getTipo(),t_aux.getColor());
 	   Terreno[] a = {matrizOcupados[x0-1][y0],
@@ -147,20 +130,20 @@ public boolean validarTerrAdy(int x0,int y0,Terreno t_aux) {
 		a0.setGrupo(t_aux.getGrupo());
 		if(!combino && combinaCastillo) {
 			// no combino con ningun caso ady. creo la lista inicial
-			a0.crearRelacion();
-			a0.setCodAsoc(contadorAsoc);
-			ListasTerrenos.add(a0.getGrupo());
-			contadorAsoc++;
-			matrizOcupados[x0][y0] = a0;
-			return true;
-		}else if (combino) {
-			matrizOcupados[x0][y0] = a0;
-			return true;
-		}
-		return false;
-		
-   }
-   
+				a0.crearRelacion();
+				a0.setCodAsoc(contadorAsoc);
+				ListasTerrenos.add(a0.getGrupo());
+				contadorAsoc++;
+				matrizOcupados[x0][y0] = a0;
+				return true;
+			}else if (combino) {
+				matrizOcupados[x0][y0] = a0;
+				return true;
+			}
+			return false;
+			
+	   }
+	   
    public int sumarizar() {
 	   int x=0,y=0;
 	   for (List<Terreno> list : ListasTerrenos) {

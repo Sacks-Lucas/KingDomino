@@ -63,6 +63,5 @@ public class testTablero {
 		Assert.assertTrue(j.agregarFichaTablero(f3, 6, 6, 7, 6));
 		Assert.assertTrue(j.agregarFichaTablero(f2, 8, 6, 9, 6));
 		Assert.assertFalse(j.agregarFichaTablero(f2, 4, 6, 3, 6));
-		Assert.assertTrue(j.agregarFichaTablero(f2, 8, 6, 9, 6));
 	}
 }
