@@ -59,7 +59,7 @@ public class JPanelPartida extends JPanel{
 		});
 		
 		JButton btn2 = new JButton ("Rotar terreno");
-		btn2.setBounds(1133, 667, 100, 30);
+		btn2.setBounds(1133, 667, 120, 30);
 		add(btn2);
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,9 +118,10 @@ public class JPanelPartida extends JPanel{
 		Graphics2D g = (Graphics2D) g1;
 		ronda.draw(g);
 		int i =0;
+		g.drawString("Puntaje de jugadores:", 995,249); //Lista de jugadores 
 		for (Jugador j : jugadores) {
 			j.draw(g);
-			g.drawString(j.getColor()+" - "+j.getPosicion(), 1194,37+i); //Lista de jugadores 
+			g.drawString(j.getColor()+" = "+j.getPuntaje(), 1032,275+i); //Lista de jugadores 
 			i+=20;
 		}
 	}	

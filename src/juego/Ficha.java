@@ -145,7 +145,7 @@ public class Ficha implements Comparable<Ficha>, Drawable{
 			g.drawRoundRect(this.x1,this.y1, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, 5, 5);
 			g.setColor(aux);	
 		}
-
+		g.setColor(Color.BLACK);
 		g.drawString(""+getCode(), x1, y1);
 		
 	}

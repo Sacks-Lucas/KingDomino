@@ -44,17 +44,19 @@ public class FrameJuego extends JFrame implements Runnable{
 		long next_game_frame = System.currentTimeMillis();
 		long next_frame_calc = System.currentTimeMillis();
 		int frames = 0;
-
 		while (is_running) {
 			if (System.currentTimeMillis() > next_game_tick) {
 				loops++;
 				next_game_tick += SKIP_TICKS;
-				update();
+//				update();
 			}
 			if (System.currentTimeMillis() > next_game_frame) {
 				frames++;
 				next_game_frame += SKIP_FRAMES;
 				display();
+				if(juego.juegoFinalizado()) {
+					terminarJuego();
+				}
 			}
 			if (System.currentTimeMillis() > next_frame_calc) {
 				fps = frames;
@@ -62,19 +64,28 @@ public class FrameJuego extends JFrame implements Runnable{
 				frames = 0;
 			}
 		}
+		
+		setFocusable(false);
+		new VentanaJuegoFinalizado(this,juego.getGanador());
 	}
 	public void display() {
 		JPanelPartida.repaint();
 	}
-
-	private void update() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+//
+//	private void update() {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	
 	public static void main(String[] args) {
 		FrameJuego g = new FrameJuego();
 		g.iniciarJuego();
+		
+	}
+	public void jugarDeNuevo() {
+
+		this.juego = new App(4);
+		iniciarJuego();
 		
 	}
 

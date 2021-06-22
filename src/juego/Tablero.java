@@ -196,6 +196,7 @@ public class Tablero implements Drawable{
 				}
 			}
 		}
+		g.setColor(Color.black);
 	}
    
    

@@ -1,5 +1,6 @@
 package juego;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.List;
 
@@ -8,6 +9,7 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 	private String color;
 	private Tablero tablero;
 	private int posicion;
+	private int puntaje=0;
 
 	public Jugador(String color, Tablero tablero2) {
 
@@ -82,5 +84,12 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 	public void deseleccionarFicha(List<Ficha> list, int f) {
 		list.get(f).deseleccionar();
 	}
-
+	
+	public void calcularPuntaje() {
+		this.puntaje = this.tablero.sumarizar();
+	}
+	
+	public int getPuntaje() {
+		return puntaje;
+	}
 }

@@ -40,6 +40,13 @@ public class Ronda implements Drawable{
 		fichasEnMesa.clear();
 		ordenJugadores.sort(null);
 		ponerFichasEnMesa();
+		actualizarPuntajes();
+	}
+
+	private void actualizarPuntajes() {
+		for (Jugador j : this.ordenJugadores) {
+			j.calcularPuntaje();
+		}
 	}
 
 	public int getRonda() {
@@ -82,15 +89,17 @@ public class Ronda implements Drawable{
 		
 		g.setFont(new Font("TimesRoman", Font.BOLD, 16));
 		g.drawString("Ronda "+this.nroRonda, X_STR_RONDA, Y_STR_RONDA);		
-		Color ini = g.getColor();
-	
+		g.drawString("Turno del jugador: \n"+ordenJugadores.get(this.jugadorActual).getColor(), 975, 218);
+		
+		
 		for (Ficha ficha : obtenerFichasEnMesa()) {
 			ficha.draw(g);
 		}
 		
-		g.setColor(ini);
+		g.setColor(Color.BLACK);
 		g.setFont(f);	
 	}
+	
 	public Jugador siguienteTurno(int f) {
 		obtenerFichasEnMesa().get(f).deseleccionar();
 		sacarFicha(f,jugadorActual);

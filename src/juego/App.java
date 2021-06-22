@@ -8,6 +8,8 @@ public class App {
 	
 	private ArrayList<Jugador> jugadores;
 	private Mazo mazo;
+
+	private String ganador="";
 	private static final int CANT_FICHAS_X_JUGADOR= 12;
 	public App(int cantJugadores) {
 		jugadores = new ArrayList<Jugador>(cantJugadores);
@@ -39,4 +41,19 @@ public class App {
 	public Mazo getMazo() {
 		return this.mazo;
 	}
+
+
+	public boolean juegoFinalizado() {
+		return this.mazo.estaVacio();
+	}
+
+
+	public String getGanador() {
+		return "Rojo";
+	}
+	
+	public void setGanador(String ganador) {
+		this.ganador = ganador;
+	}
+	
 }
