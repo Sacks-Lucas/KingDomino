@@ -18,7 +18,7 @@ public class Tablero implements Drawable{
    private int y0_tablero;
    private List<List<Terreno>> ListasTerrenos = new LinkedList<List<Terreno>>();
    private int contadorAsoc=1;
-   
+   private int extension = 0;
    public Tablero(int aux, int aux2) {
 	   matrizOcupados[X_CASTLE][X_CASTLE] = new Terreno(0, -1,Color.BLACK);
 	   filasUsadas[X_CASTLE] = true;
@@ -44,7 +44,7 @@ public class Tablero implements Drawable{
    public boolean agregarFichaATablero(Ficha f,int x0,int y0,int x1,int y1) {
 	   boolean aux1 = false,aux2=false;
 	   if(dentroDeTablero(x0,  y0) && dentroDeTablero(x1,  y1)) {
-		   System.out.println("entró");
+
 		   aux1 = validarTerrAdy(x0, y0, f.getTipoTerrenoIzq());
 		   aux2 = validarTerrAdy(x1, y1, f.getTipoTerrenoDer());
 		   
@@ -58,6 +58,7 @@ public class Tablero implements Drawable{
 				ListasTerrenos.add(f.getTipoTerrenoDer().getGrupo());
 				contadorAsoc++;
 				matrizOcupados[x1][y1] = f.getTipoTerrenoDer();
+				extension++;
 				return true;
 		   } else if (!aux1 && aux2) {
 			   
@@ -68,15 +69,16 @@ public class Tablero implements Drawable{
 				ListasTerrenos.add(f.getTipoTerrenoIzq().getGrupo());
 				contadorAsoc++;
 				matrizOcupados[x0][y0] = f.getTipoTerrenoIzq();
+				extension++;
 				return true; 
 		   }else if (aux1 && aux2) {
 			    actualizarLimites(x0, y0);
 			    actualizarLimites(x1, y1);
+			    extension++;
 				return true;
 		   }
 		  
 	   }
-	   System.out.println("paso por aca");
 	   return false;  
    }
    
@@ -198,7 +200,8 @@ public class Tablero implements Drawable{
 		}
 		g.setColor(Color.black);
 	}
-   
-   
-   
+
+	public int getExtension() {
+		return this.extension;
+	}
 }

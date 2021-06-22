@@ -92,4 +92,8 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 	public int getPuntaje() {
 		return puntaje;
 	}
+
+	public int extendTerreno() {
+		return tablero.getExtension();
+	}
 }

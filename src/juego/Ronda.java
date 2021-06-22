@@ -12,6 +12,7 @@ public class Ronda implements Drawable{
 	private ArrayList<Jugador> ordenJugadores = null;
 	private Mazo mazo;
 	private int jugadorActual=0;
+	private String ganador="";
 
 	
 	//atributos para utilización de Graficos 
@@ -44,8 +45,30 @@ public class Ronda implements Drawable{
 	}
 
 	private void actualizarPuntajes() {
+		int puntajeMax = Integer.MIN_VALUE;
+		List<Jugador> jugadoresEmpatados = new ArrayList<Jugador>(4);
+		Jugador j_aux=null;
 		for (Jugador j : this.ordenJugadores) {
 			j.calcularPuntaje();
+			if(puntajeMax < j.getPuntaje()) {
+				j_aux = j;
+				puntajeMax = j.getPuntaje();
+				this.ganador = j.getColor();
+				jugadoresEmpatados.removeAll(jugadoresEmpatados);
+			}else if (puntajeMax == j.getPuntaje()) {
+				jugadoresEmpatados.add(j);
+			}
+		}
+		
+		int extension = j_aux.extendTerreno();
+		for (Jugador jugador : jugadoresEmpatados) {
+			int aux = jugador.extendTerreno();
+			if (extension < aux) {
+				extension = aux;
+				this.ganador = jugador.getColor();
+			}else if (extension == aux ) {
+				this.ganador+=", "+jugador.getColor();
+			}
 		}
 	}
 
