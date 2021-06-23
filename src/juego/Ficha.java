@@ -1,16 +1,21 @@
 package juego;
 
-public class Ficha implements Comparable<Ficha>{
+import java.awt.Color;
+import java.awt.Graphics2D;
+
+public class Ficha implements Comparable<Ficha>, Drawable{
 	private Terreno izquierdo;
 	private Terreno derecho;
 	private int numero;
-	private int x=0;
-	private int y=0;
+	private int x;
+	private int y;
 	private int x1;
 	private int y1;
-
-	public static final int ANCHO_FICHA = 120;
-	public static final int ALTO_FICHA = 60;
+	private boolean estaSeleccionada=false;
+	public static final int X_OFFSET_STR_ID_FICHA = 957 - Ronda.X0_FICHAS_MESA;
+	public static final int Y_OFFSET_STR_ID_FICHA = 649 - Ronda.Y0_FICHAS_MESA;
+	public static final int ANCHO_FICHA = 50;
+	public static final int ALTO_FICHA = 25;
 	public static final int TAM_TERRENO = ANCHO_FICHA/2;
 	
 	public Ficha(Terreno izquierdo, Terreno derecho, int numero) {
@@ -120,6 +125,37 @@ public class Ficha implements Comparable<Ficha>{
 
 	public void setY1(int i) {
 		this.y1 = i;
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		
+		int x1 = x+X_OFFSET_STR_ID_FICHA;
+		int y1 = y+Y_OFFSET_STR_ID_FICHA;
+		
+		g.setColor(getTipoTerrenoIzq().getColor());
+		g.fillRect(x, y, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
+		g.setColor(getTipoTerrenoDer().getColor());
+		
+		g.fillRect(this.x1,this.y1, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
+		if(estaSeleccionada) {
+			Color aux = g.getColor();
+			g.setColor(Color.BLACK);
+			g.drawRoundRect(x, y, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, 5, 5);
+			g.drawRoundRect(this.x1,this.y1, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, 5, 5);
+			g.setColor(aux);	
+		}
+		g.setColor(Color.BLACK);
+		g.drawString(""+getCode(), x1, y1);
+		
+	}
+
+	public void seleccionar() {
+		this.estaSeleccionada=!this.estaSeleccionada;
+	}
+
+	public void deseleccionar() {
+		this.estaSeleccionada = false;
 	}
 
 	

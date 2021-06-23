@@ -1,22 +1,43 @@
 package juego;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.List;
 
-public class Jugador implements Comparable<Jugador> {
-	// private Rey rey;
+public class Jugador implements Comparable<Jugador>,Drawable {
+
 	private String color;
 	private Tablero tablero;
 	private int posicion;
+	private int puntaje=0;
 
-	// cambiar Rey x variable posición
-	public Jugador(String color) {
-		// rey = new Rey(color);
+	public Jugador(String color, Tablero tablero2) {
+
 		this.color = color;
-		this.tablero = new Tablero();
+		this.tablero = tablero2;
 	}
 
-	public int elegirFicha(List<Ficha> fichasMesa, int codFicha) {
-		return fichasMesa.indexOf(new Ficha(null, null, codFicha));
+	public int elegirFicha(List<Ficha> fichasMesa, int x, int y) {
+		
+		int i=0;
+		for (Ficha f : fichasMesa) {
+			
+			if(f.getX() == f.getX1()) {
+				if(x <= (f.getX() + Ficha.TAM_TERRENO)  && x >= f.getX() && y >= f.getY() && y <=(Ficha.ANCHO_FICHA+f.getY())) {
+					f.seleccionar();
+					return i;
+				}
+				
+			}
+			if(f.getY() == f.getY1()){
+				if(x <= (f.getX() + Ficha.ANCHO_FICHA)  && x >= f.getX() && y >= f.getY() && y <= (Ficha.ALTO_FICHA + f.getY())) {
+					f.seleccionar();
+					return i; 
+				}	
+			}
+			i++;
+		}
+		return -1;
 	}
 
 	@Override
@@ -54,4 +75,25 @@ public class Jugador implements Comparable<Jugador> {
 		return this.tablero;
 	}
 
+	@Override
+	public void draw(Graphics2D g) {
+		g.drawString("Tablero: "+getColor(), getTablero().getX0_tablero(),getTablero().getY0_tablero()-10);
+		getTablero().draw(g);
+	}
+
+	public void deseleccionarFicha(List<Ficha> list, int f) {
+		list.get(f).deseleccionar();
+	}
+	
+	public void calcularPuntaje() {
+		this.puntaje = this.tablero.sumarizar();
+	}
+	
+	public int getPuntaje() {
+		return puntaje;
+	}
+
+	public int extendTerreno() {
+		return tablero.getExtension();
+	}
 }
