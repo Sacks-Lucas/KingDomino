@@ -1,6 +1,7 @@
 package juego;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.List;
 
@@ -10,7 +11,8 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 	private Tablero tablero;
 	private int posicion;
 	private int puntaje=0;
-
+	private boolean turnoJugador = false;
+	
 	public Jugador(String color, Tablero tablero2) {
 
 		this.color = color;
@@ -77,7 +79,14 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawString("Tablero: "+getColor(), getTablero().getX0_tablero(),getTablero().getY0_tablero()-10);
+		Font f = g.getFont();
+		if(turnoJugador) {
+			g.setColor(Color.RED);
+			g.setFont( new Font("Times new Roman",Font.BOLD,18));
+		}
+		g.drawString("Tablero: "+getColor(), getTablero().getX0_tablero(),getTablero().getY0_tablero()+15);
+		g.setColor(Color.black);
+		g.setFont(f);
 		getTablero().draw(g);
 	}
 
@@ -95,5 +104,13 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 
 	public int extendTerreno() {
 		return tablero.getExtension();
+	}
+
+	public void leTocaTurno() {
+		this.turnoJugador = true;
+	}
+
+	public void terminaTurno() {
+		this.turnoJugador = false;
 	}
 }

@@ -158,6 +158,10 @@ public class Ficha implements Comparable<Ficha>, Drawable{
 		this.estaSeleccionada = false;
 	}
 
+	public void descartarFicha() {
+		
+	}
+
 	
 	
 

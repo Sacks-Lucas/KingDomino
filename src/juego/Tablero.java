@@ -11,8 +11,10 @@ public class Tablero implements Drawable{
    public static final int TAM_TABLERO  = 11;
    private int aux1_altura = 4;
    private int aux2_ancho = 4;
-   private boolean [] filasUsadas = new boolean [10];
-   private boolean [] colUsadas = new boolean [10];
+   private int prev_altura_dec = 0;
+   private int prev_ancho_dec  = 0;
+   private boolean [] filasUsadas = new boolean [11];
+   private boolean [] colUsadas = new boolean [11];
    private Terreno[][] matrizOcupados = new Terreno [TAM_TABLERO][TAM_TABLERO];
    private int x0_tablero;
    private int y0_tablero;
@@ -44,7 +46,15 @@ public class Tablero implements Drawable{
    public boolean agregarFichaATablero(Ficha f,int x0,int y0,int x1,int y1) {
 	   boolean aux1 = false,aux2=false;
 	   if(dentroDeTablero(x0,  y0) && dentroDeTablero(x1,  y1)) {
-
+		   
+		   boolean esp1 = valEspacioLibre(x0,  y0);
+		   boolean esp2 = valEspacioLibre(x1,  y1);
+		   prev_ancho_dec = 0;
+		   prev_altura_dec = 0;
+		   if(!(esp1 && esp2)) {
+			   
+			   return false;
+		   }
 		   aux1 = validarTerrAdy(x0, y0, f.getTipoTerrenoIzq());
 		   aux2 = validarTerrAdy(x1, y1, f.getTipoTerrenoDer());
 		   
@@ -79,20 +89,21 @@ public class Tablero implements Drawable{
 		   }
 		  
 	   }
+	   System.out.println("debug@ no combino terreno 82: ");
 	   return false;  
    }
    
-   private boolean dentroDeTablero(int x0, int y0) {
-		if(x0>9 || y0 >9 || x0 < 1 || y0 < 1) {
-			return false;
-		}
+   private boolean valEspacioLibre(int x0, int y0) {
+	   
 		if(matrizOcupados[x0][y0] == null ) {
-			
-			
-			if(!filasUsadas[x0] && colUsadas[y0] && aux1_altura > 0 ) {
+
+			if(!filasUsadas[x0] && colUsadas[y0] && aux1_altura - prev_altura_dec > 0 ) {
+				prev_altura_dec = 1;
 				return true;
 			}
-			if(filasUsadas[x0] && !colUsadas[y0] && aux2_ancho > 0 ) {
+			System.out.println("Estrue100"+filasUsadas[x0]+" - "+colUsadas[y0]+" - "+aux2_ancho);
+			if(filasUsadas[x0] && !colUsadas[y0] && aux2_ancho - prev_ancho_dec > 0 ) {
+				prev_ancho_dec = 1;
 				return true;
 			}		
 			
@@ -100,11 +111,19 @@ public class Tablero implements Drawable{
 				return true;
 			}
 			
-			if(!filasUsadas[x0] && !colUsadas[y0] && aux2_ancho > 0 && aux1_altura > 0) {
+			if(!filasUsadas[x0] && !colUsadas[y0] && aux2_ancho - prev_ancho_dec > 0 && aux1_altura -prev_altura_dec> 0) {
+				prev_altura_dec = 1;
+				prev_ancho_dec = 1;
 				return true;
 			}
+		}	   
+	   return false;
+   }
+   private boolean dentroDeTablero(int x0, int y0) {
+		if(x0>9 || y0 >9 || x0 < 1 || y0 < 1) {
+			return false;
 		}
-		return false;
+		return true;
    }
 
 	public boolean validarTerrAdy(int x0,int y0,Terreno t_aux) {
@@ -113,14 +132,17 @@ public class Tablero implements Drawable{
 	   Terreno[] a = {matrizOcupados[x0-1][y0],
 		   		  matrizOcupados[x0+1][y0],
 		   		  matrizOcupados[x0][y0-1],
-		   		  matrizOcupados[x0][y0+1]}; 
+		   		  matrizOcupados[x0][y0+1]};
+	   
+	   
 		for (Terreno terreno : a) {
+			
 		   if(t_aux.equals(terreno)) {
+			   
 			   if(t_aux.getGrupo() == null ) {
 				   terreno.relTerrenoAGrupo(t_aux);
 			   }else if(t_aux.getCodAsoc() != terreno.getCodAsoc()){
 				   terreno.combinarGrupos(t_aux);
-				   t_aux.setGrupo(terreno.getGrupo());
 			   }
 			   combino=true;
 		   }else if (terreno != null && terreno.getTipo() == -1) {
@@ -128,8 +150,10 @@ public class Tablero implements Drawable{
 			   combinaCastillo=true;
 		   }
 		}
-		a0.setCodAsoc(t_aux.getCodAsoc());
-		a0.setGrupo(t_aux.getGrupo());
+		
+	   a0.setCodAsoc(t_aux.getCodAsoc());
+	   a0.setGrupo(t_aux.getGrupo());
+	   
 		if(!combino && combinaCastillo) {
 			// no combino con ningun caso ady. creo la lista inicial
 				a0.crearRelacion();
@@ -186,8 +210,8 @@ public class Tablero implements Drawable{
 
 	@Override
 	public void draw(Graphics2D g) {
-		for (int i = 0; i < TAM_TABLERO; i++) {
-			for (int k = 0; k < TAM_TABLERO; k++) {
+		for (int i = 1; i < TAM_TABLERO-1; i++) {
+			for (int k = 1; k < TAM_TABLERO-1; k++) {
 				if(matrizOcupados[i][k] != null) {
 					if((matrizOcupados[i][k]).getTipo() != -1) {
 						g.setColor((matrizOcupados[i][k]).getColor());
@@ -196,6 +220,8 @@ public class Tablero implements Drawable{
 					}
 					g.fillRect(this.x0_tablero+i*Ficha.TAM_TERRENO,this.y0_tablero+k*Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
 				}
+				g.setColor(Color.LIGHT_GRAY);
+				g.drawRoundRect(this.x0_tablero+i*Ficha.TAM_TERRENO,this.y0_tablero+k*Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, 5, 5);	
 			}
 		}
 		g.setColor(Color.black);

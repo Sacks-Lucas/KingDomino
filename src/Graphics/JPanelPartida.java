@@ -42,10 +42,12 @@ public class JPanelPartida extends JPanel{
 	private List <Jugador> jugadores;
 	private int idFichaSel = -1;
 	private Jugador jugador;
+	private int contRotacion=0;
 	public JPanelPartida(Ronda ronda) {
 		this.ronda = ronda;
 		this.jugadores = ronda.getOrdenJ();
 		this.jugador = ronda.getOrdenJ().get(0);
+		this.jugador.leTocaTurno();
 		setLayout(null);
 		JButton btn = new JButton ("Rotar");
 		btn.setBounds(966, 667, 100, 30);
@@ -53,18 +55,40 @@ public class JPanelPartida extends JPanel{
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(idFichaSel != -1) {
-					ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+					switch (contRotacion) {
+						case 0: {
+							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							break;
+						}
+						case 1: {
+							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
+							break;
+						}
+						case 2: {
+							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							break;
+						}
+						case 3: {
+							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
+							contRotacion = -1;
+							break;
+						}	
+					}
+					contRotacion++;
 				}
 			}
 		});
 		
-		JButton btn2 = new JButton ("Rotar terreno");
-		btn2.setBounds(1133, 667, 120, 30);
+		JButton btn2 = new JButton ("Descartar ficha");
+		btn2.setBounds(972, 125, 150, 40);
 		add(btn2);
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(idFichaSel != -1) {
-					ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
+					jugador = ronda.siguienteTurno(idFichaSel);
+					idFichaSel=-1; // la ficha se deselecciona cuando se pudo poner en el tablero
 				}
 			}
 		});
@@ -92,7 +116,9 @@ public class JPanelPartida extends JPanel{
 						int offset_y = fichaElegida.getY() == fichaElegida.getY1()?0:1;
 						boolean pudoPoner = jugador.agregarFichaTablero(fichaElegida, x, y, x+offset_x, y+offset_y);
 						if(pudoPoner) {
+							jugador.terminaTurno();
 							jugador = ronda.siguienteTurno(idFichaSel);
+							jugador.leTocaTurno();
 							idFichaSel=-1; // la ficha se deselecciona cuando se pudo poner en el tablero
 						}
 
@@ -120,8 +146,15 @@ public class JPanelPartida extends JPanel{
 		int i =0;
 		g.drawString("Puntaje de jugadores:", 995,249); //Lista de jugadores 
 		for (Jugador j : jugadores) {
+			Font f = g.getFont();
 			j.draw(g);
+			if(jugador.equals(j)) {
+				g.setColor(Color.RED);
+				g.setFont( new Font("Times new Roman",Font.BOLD,15));
+			}
 			g.drawString(j.getColor()+" = "+j.getPuntaje(), 1032,275+i); //Lista de jugadores 
+			g.setColor(Color.black);
+			g.setFont(f);
 			i+=20;
 		}
 	}	

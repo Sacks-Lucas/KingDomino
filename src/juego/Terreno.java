@@ -73,6 +73,7 @@ public class Terreno {
 			terreno.setCodAsoc(this.codAsociacion);
 		}
 		this.terrenosRelacionados.addAll(t_aux.getGrupo());
+		t_aux.terrenosRelacionados = this.terrenosRelacionados;
 	}
 
 	public int getCoronas() {

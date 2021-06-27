@@ -1,12 +1,3 @@
-Ver la cuadricula en los tableros
 
-Rotar con un solo boton
-
-Agregar visualizacion de quien es el turno
-
-Boton descartar ficha para cuando no se puede poner otra
-
+Ver de poder agregar Mazos
 Crear las fichas distintas
-
-Ver error que deja 6 de ancho en el tablero
-
