@@ -16,11 +16,17 @@ public class FrameJuego extends JFrame implements Runnable{
 	private final int TICKS_PER_SECOND = 1000;
 	private final int SKIP_TICKS = SECOND / TICKS_PER_SECOND;
 	private JPanelPartida JPanelPartida;
-	private App juego= new App(4);
-	
+	private App juego;
+	private int cantJugadores=0;
+	private int codigoPartida;
+	public FrameJuego(int cantJugadores, int codigo) {
+		this.cantJugadores = cantJugadores;
+		this.codigoPartida = codigo;
+		juego= new App(cantJugadores);
 
-	public FrameJuego() {
-		
+	}
+	public void iniciarJuego() {
+
 		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo()));
 		add(JPanelPartida);
 		pack();
@@ -28,10 +34,6 @@ public class FrameJuego extends JFrame implements Runnable{
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setFocusable(true);
-		
-		
-	}
-	public void iniciarJuego() {
 		is_running = true;
 		run();
 	}
@@ -71,23 +73,18 @@ public class FrameJuego extends JFrame implements Runnable{
 	public void display() {
 		JPanelPartida.repaint();
 	}
-//
-//	private void update() {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//	
 	public static void main(String[] args) {
-		FrameJuego g = new FrameJuego();
+		int jugadores= 4;
+		FrameJuego g = new FrameJuego(jugadores,1);
 		g.iniciarJuego();
-		
 	}
 	public void jugarDeNuevo() {
-
-		this.juego = new App(4);
-		iniciarJuego();
-		
+		this.juego = new App(cantJugadores);
+		iniciarJuego();	
 	}
-
+	public App getApp() {
+		// TODO Auto-generated method stub
+		return juego;
+	}
 	
 }

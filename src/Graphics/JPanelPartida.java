@@ -28,12 +28,6 @@ public class JPanelPartida extends JPanel{
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 1366;
 	public static final int HEIGHT = 768;
-	
-	///////////////////////
-	//constantes de Ronda: 
-	///////////////////////
-	private Color[] c = {Color.BLUE,Color.YELLOW,Color.RED,Color.RED,Color.GREEN};
-	
 	public static final int X_OFFSET_STR_ID_FICHA = 957 - Ronda.X0_FICHAS_MESA;
 	public static final int Y_OFFSET_STR_ID_FICHA = 649 - Ronda.Y0_FICHAS_MESA;
 	public static final int X0_TABLEROS = 0;
@@ -43,10 +37,11 @@ public class JPanelPartida extends JPanel{
 	private int idFichaSel = -1;
 	private Jugador jugador;
 	private int contRotacion=0;
+	
 	public JPanelPartida(Ronda ronda) {
 		this.ronda = ronda;
-		this.jugadores = ronda.getOrdenJ();
-		this.jugador = ronda.getOrdenJ().get(0);
+		this.jugadores = this.ronda.getOrdenJ();
+		this.jugador = this.ronda.getOrdenJ().get(0);
 		this.jugador.leTocaTurno();
 		setLayout(null);
 		JButton btn = new JButton ("Rotar");

@@ -2,20 +2,29 @@ package juego;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Mazo {
 
 	private ArrayList<Ficha> fichas;
 	
+	public ArrayList<Ficha> getFichas() {
+		return fichas;
+	}
+
 	public Mazo(int cant) {
-		
-		// Cargar todas las fichas y quedarme solo con cant
-		
 		fichas = new ArrayList<Ficha>(cant);
-		
 		for (int i = 0; i < cant; i++) {
 			fichas.add(new Ficha(new Terreno(1, 1,Color.YELLOW), new Terreno(2, 2,Color.RED), i));
 		}
+	}
+
+	public Mazo(List<Integer> listaFichasMazo) {
+		fichas = new ArrayList<Ficha>(listaFichasMazo.size());
+		for (Integer integer : listaFichasMazo) {
+			fichas.add(new Ficha(new Terreno(1, 1,Color.YELLOW), new Terreno(2, 2,Color.RED), integer));
+		}
+
 	}
 
 	public void mezclar() {
