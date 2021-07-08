@@ -26,6 +26,11 @@ public class Mazo {
 		}
 
 	}
+	
+	// Cargar mazo con array de Fichas
+	public Mazo(ArrayList<Ficha> fichas) {
+		this.fichas = fichas;
+	}
 
 	public void mezclar() {
 	    for(int i = fichas.size() - 1; i > 0; i--) {
