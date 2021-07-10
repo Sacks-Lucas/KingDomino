@@ -14,18 +14,17 @@ public class ArchivoMazo {
 
 	private static final Color COLORES[] = {Color.YELLOW, Color.RED, Color.BLUE, 
 											Color.CYAN, Color.GRAY, Color.GREEN,
-											Color.MAGENTA, Color.ORANGE, Color.PINK};
+											Color.MAGENTA, Color.ORANGE, Color.PINK, Color.PINK};
 	
-	public static Mazo cargarMazo (String ruta) {
+	public static ArrayList<Ficha> cargarMazo (String ruta) {
 
-		Mazo m = null;
-		
+		ArrayList<Ficha> fichas=null;
 		try {
 			Scanner file = new Scanner(new File(ruta));
 	
 			int cantFichas = file.nextInt();
 			
-			ArrayList<Ficha> fichas = new ArrayList<Ficha>(cantFichas);
+			fichas = new ArrayList<Ficha>(cantFichas);
 			
 			for(int i = 0; i < cantFichas; i++) {
 
@@ -36,15 +35,12 @@ public class ArchivoMazo {
 					int valorTerreno = file.nextInt();
 					int posColor = file.nextInt();
 					
-					terrenos.add(new Terreno(cantCoronas, valorTerreno, COLORES[t]));
+					terrenos.add(new Terreno(cantCoronas, valorTerreno, COLORES[posColor]));
 				}
 				
-				int valorFicha = file.nextInt();
+				int valorFicha = file.nextInt()-1;
 				
-				fichas.add(new Ficha(terrenos.get(0), terrenos.get(1), valorFicha));
-				
-				m = new Mazo(fichas);
-				
+				fichas.add(new Ficha(terrenos.get(0), terrenos.get(1), valorFicha));	
 			}
 			
 			file.close();
@@ -53,7 +49,7 @@ public class ArchivoMazo {
 			e.printStackTrace();
 		}
 		
-		return m;
+		return fichas;
 	}
 
 	/*
@@ -72,8 +68,9 @@ public class ArchivoMazo {
 		
 		--Terreno se construye con 
 		int(cantCoronas) 
-		int(valorTerreno)
-		int(pos del color en un array de colores)
-	 
+		int(tipoTerreno) va de 0 - 8
+		int(pos del color en un array de colores es igual que tipo terreno)
+		sacar ultimo color de array
+	 	
 	 */
 }

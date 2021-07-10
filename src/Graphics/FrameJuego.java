@@ -1,10 +1,11 @@
 package graphics;
 import javax.swing.JFrame;
 
+import cliente.Cliente;
 import juego.App;
 import juego.Ronda;
 
-public class FrameJuego extends JFrame implements Runnable{
+public class FrameJuego extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private boolean is_running=false;
@@ -16,18 +17,25 @@ public class FrameJuego extends JFrame implements Runnable{
 	private final int TICKS_PER_SECOND = 1000;
 	private final int SKIP_TICKS = SECOND / TICKS_PER_SECOND;
 	private JPanelPartida JPanelPartida;
+	private MotorGrafico motor;
 	private App juego;
 	private int cantJugadores=0;
 	private int codigoPartida;
-	public FrameJuego(int cantJugadores, int codigo) {
+	private Cliente clt;
+	public FrameJuego(int cantJugadores, int codigo,Cliente clt) {
+		super("myThread");
 		this.cantJugadores = cantJugadores;
 		this.codigoPartida = codigo;
+		this.clt = clt;
 		juego= new App(cantJugadores);
-
+	}
+	
+	public void crearJPanelPartida() {
+		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo()),this.clt,codigoPartida);
 	}
 	public void iniciarJuego() {
-
-		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo()));
+		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo()),this.clt,codigoPartida);
+		motor = new MotorGrafico(juego, JPanelPartida, this);
 		add(JPanelPartida);
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -35,49 +43,12 @@ public class FrameJuego extends JFrame implements Runnable{
 		setVisible(true);
 		setFocusable(true);
 		is_running = true;
-		run();
+		motor.start();
 	}
 	public void terminarJuego() {
-		is_running = false;
+		motor.terminarJuego();
 	}
-	@Override
-	public void run() {
-		long next_game_tick = System.currentTimeMillis();
-		long next_game_frame = System.currentTimeMillis();
-		long next_frame_calc = System.currentTimeMillis();
-		int frames = 0;
-		while (is_running) {
-			if (System.currentTimeMillis() > next_game_tick) {
-				loops++;
-				next_game_tick += SKIP_TICKS;
-//				update();
-			}
-			if (System.currentTimeMillis() > next_game_frame) {
-				frames++;
-				next_game_frame += SKIP_FRAMES;
-				display();
-				if(juego.juegoFinalizado()) {
-					terminarJuego();
-				}
-			}
-			if (System.currentTimeMillis() > next_frame_calc) {
-				fps = frames;
-				next_frame_calc += SECOND;
-				frames = 0;
-			}
-		}
-		
-		setFocusable(false);
-		new VentanaJuegoFinalizado(this,juego.getGanador());
-	}
-	public void display() {
-		JPanelPartida.repaint();
-	}
-	public static void main(String[] args) {
-		int jugadores= 4;
-		FrameJuego g = new FrameJuego(jugadores,1);
-		g.iniciarJuego();
-	}
+
 	public void jugarDeNuevo() {
 		this.juego = new App(cantJugadores);
 		iniciarJuego();	
@@ -85,6 +56,10 @@ public class FrameJuego extends JFrame implements Runnable{
 	public App getApp() {
 		// TODO Auto-generated method stub
 		return juego;
+	}
+	
+	public JPanelPartida getJPanelPartida() {
+		return JPanelPartida;
 	}
 	
 }

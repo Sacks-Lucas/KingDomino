@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import cliente.Cliente;
-import mensajeria.MsjCrearPartida;
+import graphics.FrameJuego;
+import msjClienteAServidor.MsjCrearPartida;
 
 public class mainPruebaCS {
+	
 	public static void main(String[] args) {
 		Cliente c = null;
 		try {
@@ -17,10 +19,10 @@ public class mainPruebaCS {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		c.enviarMsj(new MsjCrearPartida(4));
+		int i = 0;
 		while (true) {
-			
+
 		}
 	}
 }

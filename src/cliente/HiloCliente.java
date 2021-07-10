@@ -3,7 +3,11 @@ package cliente;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import mensajeria.Mensaje;
+
+import graphics.EntrarAPartida;
+import graphics.FrameJuego;
+import msjClienteAServidor.Mensaje;
+import respServidorACliente.RespMensaje;
 import servidor.InfoPartida;
 
 public class HiloCliente extends Thread{
@@ -11,6 +15,8 @@ public class HiloCliente extends Thread{
 	private Socket socketCliente;
 	private boolean estaConectado;
 	private InfoPartida infoPartida;
+	private Cliente clt;
+	private EntrarAPartida setEntrarAPartida;
 
 	public boolean isEstaConectado() {
 		return estaConectado;
@@ -20,8 +26,9 @@ public class HiloCliente extends Thread{
 		this.estaConectado = estaConectado;
 	}
 
-	public HiloCliente(Socket cs) {
-		this.socketCliente= cs;
+	public HiloCliente(Cliente cliente) {
+		this.socketCliente= cliente.getSocket();
+		this.clt = cliente;
 		this.estaConectado = true;
 		start();
 	}
@@ -30,10 +37,13 @@ public class HiloCliente extends Thread{
 	@Override
 	public void run() {
 		while(estaConectado) {
+			System.out.println("Entra en peticion");
 	        try {
 	        	ObjectInputStream in = new ObjectInputStream(socketCliente.getInputStream());	     
-				Mensaje msjRecibido = (Mensaje) in.readObject();
+				RespMensaje msjRecibido = (RespMensaje) in.readObject();
+				System.out.println("Llegó mensaje ! ");
 				msjRecibido.realizarOperacion(this);
+				System.out.println("Termino atender peticion");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}  catch (ClassNotFoundException e) {
@@ -51,12 +61,23 @@ public class HiloCliente extends Thread{
 		}	
 	}
 
-	public Socket getCliente() {
-		// TODO Auto-generated method stub
-		return socketCliente;
+	public Cliente getCliente() {
+		return this.clt;
 	}
 
 	public void guardarInfoPartida(InfoPartida f) {
 		this.infoPartida = f;
+	}
+
+	public FrameJuego getInfoPartida() {
+		return this.infoPartida.getfPartida();
+	}
+
+	public void setEntrarAPartida(EntrarAPartida entrarAPartida) {
+		this.setEntrarAPartida = entrarAPartida;
+	}
+
+	public EntrarAPartida getEntrarAPartida() {
+		return setEntrarAPartida;
 	}
 }

@@ -17,11 +17,13 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import cliente.Cliente;
 import juego.Ficha;
 import juego.Jugador;
 import juego.Ronda;
 import juego.Tablero;
 import juego.Terreno;
+import msjClienteAServidor.MsjPonerFicha;
 
 public class JPanelPartida extends JPanel{
 
@@ -36,10 +38,17 @@ public class JPanelPartida extends JPanel{
 	private List <Jugador> jugadores;
 	private int idFichaSel = -1;
 	private Jugador jugador;
+	public Jugador getJugador() {
+		return jugador;
+	}
 	private int contRotacion=0;
+	private Cliente cliente; 
+	private int codigoPartida;
 	
-	public JPanelPartida(Ronda ronda) {
+	public JPanelPartida(Ronda ronda,Cliente clt, int codigoPartida1) {
 		this.ronda = ronda;
+		this.cliente = clt;
+		this.codigoPartida = codigoPartida1;
 		this.jugadores = this.ronda.getOrdenJ();
 		this.jugador = this.ronda.getOrdenJ().get(0);
 		this.jugador.leTocaTurno();
@@ -109,13 +118,15 @@ public class JPanelPartida extends JPanel{
 						Ficha fichaElegida = ronda.obtenerFichaSeleccionada(idFichaSel);
 						int offset_x = fichaElegida.getX() == fichaElegida.getX1()?0:1;
 						int offset_y = fichaElegida.getY() == fichaElegida.getY1()?0:1;
-						boolean pudoPoner = jugador.agregarFichaTablero(fichaElegida, x, y, x+offset_x, y+offset_y);
-						if(pudoPoner) {
-							jugador.terminaTurno();
-							jugador = ronda.siguienteTurno(idFichaSel);
-							jugador.leTocaTurno();
-							idFichaSel=-1; // la ficha se deselecciona cuando se pudo poner en el tablero
-						}
+						cliente.enviarMsj(new MsjPonerFicha(idFichaSel,x, y, x+offset_x, y+offset_y, jugador.getPosicion(), codigoPartida));
+						idFichaSel=-1;
+//						boolean pudoPoner = jugador.agregarFichaTablero(fichaElegida, x, y, x+offset_x, y+offset_y);
+//						if(pudoPoner) {
+//							jugador.terminaTurno();
+//							jugador = ronda.siguienteTurno(idFichaSel);
+//							jugador.leTocaTurno();
+//							idFichaSel=-1; // la ficha se deselecciona cuando se pudo poner en el tablero
+//						}
 
 					}else if(aux_f != idFichaSel) {
 						//Seleccionó otra ficha. Quito seleccion de ficha anterior
@@ -124,6 +135,10 @@ public class JPanelPartida extends JPanel{
 				}
 			}
 		});
+	}
+	
+	public Ronda getRonda() {
+		return ronda;
 	}
 	private int convertirCoordAMatriz(int x, int offsetTablero) {
 		return (x-offsetTablero)/Ficha.TAM_TERRENO;

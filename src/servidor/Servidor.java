@@ -1,7 +1,4 @@
 package servidor;
-
-
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,6 +16,7 @@ public class Servidor{
     protected Socket cs; //Socket del cliente
 	private boolean running;
 	private static List<Socket> clientes_conectados = new LinkedList<Socket>();
+	private static List<InfoPartida> partidasCreadas = new LinkedList<InfoPartida>();
 
     public Servidor() throws IOException {
     	ss = new ServerSocket(PUERTO);
@@ -34,7 +32,7 @@ public class Servidor{
             while(running) {
                 cs = ss.accept(); //Accept comienza el socket y espera una conexión desde un cliente
                 clientes_conectados.add(cs);
-                new HiloServidor(cs,clientes_conectados);
+                new HiloServidor(cs,clientes_conectados,partidasCreadas);
             }
 
             System.out.println("Fin de la conexión");

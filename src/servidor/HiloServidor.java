@@ -6,8 +6,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
-import mensajeria.Mensaje;
-import mensajeria.MsjCrearPartida;
+import graphics.FrameJuego;
+import msjClienteAServidor.Mensaje;
+import msjClienteAServidor.MsjCrearPartida;
+import respServidorACliente.RespMensaje;
 
 public class HiloServidor extends Thread{
 
@@ -16,7 +18,9 @@ public class HiloServidor extends Thread{
 	private boolean estaConectado;
 	private List<Socket> clientes_conectados;
 	private InfoPartida infoPartida;
+	private List<InfoPartida> partidasCreadas;
 	private static int codigoPartida;
+	
 	public boolean isEstaConectado() {
 		return estaConectado;
 	}
@@ -28,9 +32,10 @@ public class HiloServidor extends Thread{
 		this.estaConectado = estaConectado;
 	}
 
-	public HiloServidor(Socket cs, List<Socket> clientes_conectados) {
+	public HiloServidor(Socket cs, List<Socket> clientes_conectados, List<InfoPartida> partidasCreadas) {
 		this.socketCliente = cs;
 		this.estaConectado = true;
+		this.partidasCreadas = partidasCreadas;
 		this.setClientes_conectados(clientes_conectados);
 		start();
 	}
@@ -57,7 +62,7 @@ public class HiloServidor extends Thread{
 	public void broadcast(Mensaje msj) {
 		try {
 			for (Socket socket : getClientes_conectados()) {
-	        	salidaCliente = new ObjectOutputStream(socket.getOutputStream());
+				ObjectOutputStream salidaCliente = new ObjectOutputStream(socket.getOutputStream());
 	        	salidaCliente.writeObject(msj);
 	        	salidaCliente.flush();
 			}
@@ -66,22 +71,21 @@ public class HiloServidor extends Thread{
 		}
 	}
 	
-	public void responderCliente(String string) {
-		
-		try {
-//			salidaCliente = new DataOutputStream(socketCliente.getOutputStream());
-			salidaCliente.writeUTF(string);
-			salidaCliente.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+//	public void responderCliente(String string) {
+//		
+//		try {
+////			salidaCliente = new DataOutputStream(socketCliente.getOutputStream());
+//			salidaCliente.writeUTF(string);
+//			salidaCliente.flush();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//
 
 
 	public Socket getSocket() {
-		// TODO Auto-generated method stub
 		return socketCliente;
 	}
 	
@@ -99,12 +103,13 @@ public class HiloServidor extends Thread{
 		this.clientes_conectados = clientes_conectados;
 	}
 
-	public void broadcastPartida(Mensaje msj, List<Socket> list) {
+	public void broadcastPartida(RespMensaje msj, List<Socket> list) {
 		try {
 			for (Socket socket : list) {
-	        	salidaCliente = new ObjectOutputStream(socket.getOutputStream());
+				System.out.println("Enviar msj");
+				ObjectOutputStream salidaCliente = new ObjectOutputStream(socket.getOutputStream());
 	        	salidaCliente.writeObject(msj);
-	        	salidaCliente.flush();
+				salidaCliente.flush();	
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -114,6 +119,11 @@ public class HiloServidor extends Thread{
 	public int obtenerCodigoPartida() {
 		this.codigoPartida++;
 		return codigoPartida;
+	}
+
+	public FrameJuego getInfoPartida() {
+		// TODO Auto-generated method stub
+		return infoPartida.getfPartida();
 	}
 
 }

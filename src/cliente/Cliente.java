@@ -6,7 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import mensajeria.Mensaje;
+import graphics.EntrarAPartida;
+import msjClienteAServidor.Mensaje;
 import servidor.InfoPartida;
 
 
@@ -14,15 +15,16 @@ import servidor.InfoPartida;
 public class Cliente {
 	private final int PUERTO = 1234; //Puerto para la conexión
     private final String HOST = "localhost"; //Host para la conexión
-    protected String mensajeServidor; //Mensajes entrantes (recibidos) en el servidor
-    protected Socket cs; //Socket del cliente
+    private String mensajeServidor; //Mensajes entrantes (recibidos) en el servidor
+    private Socket cs; //Socket del cliente
     ObjectOutputStream salidaServidor;
-	protected DataOutputStream salidaCliente; //Flujo de datos de salida
+    private DataOutputStream salidaCliente; //Flujo de datos de salida
     private HiloCliente hilo;
+	private EntrarAPartida entrarAPartida;
 
     public Cliente () throws UnknownHostException, IOException {
     	cs = new Socket(HOST, PUERTO);
-    	hilo = new HiloCliente(cs);
+    	hilo = new HiloCliente(this);
     }
     void infoPartida(InfoPartida f ) {
     	this.hilo.guardarInfoPartida(f);
@@ -33,12 +35,19 @@ public class Cliente {
         	salidaServidor = new ObjectOutputStream(cs.getOutputStream());
             salidaServidor.writeObject(msj);
             salidaServidor.flush();
-        }
-        catch (Exception e){
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
 	public void desconectarse() {
 		this.hilo.setEstaConectado(false);
+	}
+	public Socket getSocket() {
+		
+		return this.cs;
+	}
+	public void setEntrarAPartida(EntrarAPartida entrarAPartida) {
+		this.entrarAPartida = entrarAPartida;
+		hilo.setEntrarAPartida(entrarAPartida);
 	}
 }

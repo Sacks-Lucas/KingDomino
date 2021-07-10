@@ -7,11 +7,18 @@ import java.util.List;
 import graphics.FrameJuego;
 
 public class InfoPartida {
-	FrameJuego fPartida ;
+	FrameJuego fPartida;
 	List <Socket> usuariosConectados = new LinkedList<Socket>();
 	public InfoPartida(FrameJuego f , List<Socket> usuarios) {
 		fPartida = f;
 		usuariosConectados = usuarios;
 	}
-
+	public FrameJuego getfPartida() {
+		return fPartida;
+	}
+	
+	//actualizar movimiento
+	//rotar
+	//poner ficha
+	//
 }

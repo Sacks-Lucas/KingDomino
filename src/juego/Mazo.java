@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mazo {
+import mazos.ArchivoMazo;
 
+public class Mazo {
+	
 	private ArrayList<Ficha> fichas;
 	
 	public ArrayList<Ficha> getFichas() {
@@ -14,22 +16,17 @@ public class Mazo {
 
 	public Mazo(int cant) {
 		fichas = new ArrayList<Ficha>(cant);
-		for (int i = 0; i < cant; i++) {
-			fichas.add(new Ficha(new Terreno(1, 1,Color.YELLOW), new Terreno(2, 2,Color.RED), i));
-		}
+		fichas = ArchivoMazo.cargarMazo("archivos mazos/ejemplo.in");
 	}
 
 	public Mazo(List<Integer> listaFichasMazo) {
 		fichas = new ArrayList<Ficha>(listaFichasMazo.size());
+		ArrayList<Ficha> fichas_aux = ArchivoMazo.cargarMazo("archivos mazos/ejemplo.in");
 		for (Integer integer : listaFichasMazo) {
-			fichas.add(new Ficha(new Terreno(1, 1,Color.YELLOW), new Terreno(2, 2,Color.RED), integer));
+			Ficha aux_ficha_arch = fichas_aux.get(integer);
+			fichas.add(new Ficha(aux_ficha_arch.getIzquierdo(), aux_ficha_arch.getDerecho(), integer));
 		}
 
-	}
-	
-	// Cargar mazo con array de Fichas
-	public Mazo(ArrayList<Ficha> fichas) {
-		this.fichas = fichas;
 	}
 
 	public void mezclar() {

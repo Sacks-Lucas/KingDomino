@@ -219,6 +219,10 @@ public class Tablero implements Drawable{
 						g.setColor(Color.black);
 					}
 					g.fillRect(this.x0_tablero+i*Ficha.TAM_TERRENO,this.y0_tablero+k*Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
+
+					g.setColor(Color.BLACK);
+					g.drawString(""+matrizOcupados[i][k].getCoronas(), (this.x0_tablero+i*Ficha.TAM_TERRENO)+9, (this.y0_tablero+k*Ficha.TAM_TERRENO)+18);
+					
 				}
 				g.setColor(Color.LIGHT_GRAY);
 				g.drawRoundRect(this.x0_tablero+i*Ficha.TAM_TERRENO,this.y0_tablero+k*Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, 5, 5);	
