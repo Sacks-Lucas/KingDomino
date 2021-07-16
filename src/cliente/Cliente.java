@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import graphics.EntrarAPartida;
+import graphics.SalaPartida;
 import msjClienteAServidor.Mensaje;
 import servidor.InfoPartida;
 
@@ -20,7 +20,7 @@ public class Cliente {
     ObjectOutputStream salidaServidor;
     private DataOutputStream salidaCliente; //Flujo de datos de salida
     private HiloCliente hilo;
-	private EntrarAPartida entrarAPartida;
+	private SalaPartida entrarAPartida;
 
     public Cliente () throws UnknownHostException, IOException {
     	cs = new Socket(HOST, PUERTO);
@@ -46,8 +46,7 @@ public class Cliente {
 		
 		return this.cs;
 	}
-	public void setEntrarAPartida(EntrarAPartida entrarAPartida) {
-		this.entrarAPartida = entrarAPartida;
-		hilo.setEntrarAPartida(entrarAPartida);
+	public void setSalaPartida(SalaPartida entrarAPartida) {
+		hilo.setSalaPartida(entrarAPartida);
 	}
 }

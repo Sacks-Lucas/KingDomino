@@ -16,12 +16,12 @@ public class App {
 		jugadores = new ArrayList<Jugador>(cantJugadores);
 		int aux[][] = {{0+50,0+50},{Ficha.TAM_TERRENO*5+300,0+50},{0+50,Ficha.TAM_TERRENO*5+200},{Ficha.TAM_TERRENO*5+300,Ficha.TAM_TERRENO*5+200}};
 		for(int i = 0; i < cantJugadores; i++) {
-			jugadores.add(new Jugador(COLORES[i],new Tablero(aux[i][0],aux[i][1])));
+			jugadores.add(new Jugador(COLORES[i],new Tablero(aux[i][0],aux[i][1]),i));
 		}
 	}
 	
 	public void crearMazo() {
-		System.out.println("Se ejecutó "+jugadores.size()*CANT_FICHAS_X_JUGADOR);
+		//System.out.println("Se ejecutó "+jugadores.size()*CANT_FICHAS_X_JUGADOR);
 		this.mazo = new Mazo(jugadores.size()*CANT_FICHAS_X_JUGADOR);
 		System.out.println(mazo);
 		mezclarMazo();

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import graphics.EntrarAPartida;
+import graphics.SalaPartida;
 import graphics.FrameJuego;
 import msjClienteAServidor.Mensaje;
 import respServidorACliente.RespMensaje;
@@ -16,7 +16,7 @@ public class HiloCliente extends Thread{
 	private boolean estaConectado;
 	private InfoPartida infoPartida;
 	private Cliente clt;
-	private EntrarAPartida setEntrarAPartida;
+	private SalaPartida setEntrarAPartida;
 
 	public boolean isEstaConectado() {
 		return estaConectado;
@@ -73,11 +73,11 @@ public class HiloCliente extends Thread{
 		return this.infoPartida.getfPartida();
 	}
 
-	public void setEntrarAPartida(EntrarAPartida entrarAPartida) {
+	public void setSalaPartida(SalaPartida entrarAPartida) {
 		this.setEntrarAPartida = entrarAPartida;
 	}
 
-	public EntrarAPartida getEntrarAPartida() {
+	public SalaPartida getSalaPartida() {
 		return setEntrarAPartida;
 	}
 }

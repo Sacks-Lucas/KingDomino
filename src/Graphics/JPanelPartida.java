@@ -24,6 +24,7 @@ import juego.Ronda;
 import juego.Tablero;
 import juego.Terreno;
 import msjClienteAServidor.MsjPonerFicha;
+import msjClienteAServidor.MsjRotarFicha;
 
 public class JPanelPartida extends JPanel{
 
@@ -38,49 +39,57 @@ public class JPanelPartida extends JPanel{
 	private List <Jugador> jugadores;
 	private int idFichaSel = -1;
 	private Jugador jugador;
-	public Jugador getJugador() {
-		return jugador;
-	}
+
 	private int contRotacion=0;
 	private Cliente cliente; 
 	private int codigoPartida;
+	private int codJug;
 	
-	public JPanelPartida(Ronda ronda,Cliente clt, int codigoPartida1) {
+	public Jugador getJugador() {
+		return jugador;
+	}
+	public JPanelPartida(Ronda ronda,Cliente clt, int codigoPartida1, int codJugador) {
 		this.ronda = ronda;
 		this.cliente = clt;
+		this.codJug = codJugador;
 		this.codigoPartida = codigoPartida1;
 		this.jugadores = this.ronda.getOrdenJ();
-		this.jugador = this.ronda.getOrdenJ().get(0);
-		this.jugador.leTocaTurno();
+		this.jugador = this.ronda.getOrdenJ().get(codJugador);
 		setLayout(null);
 		JButton btn = new JButton ("Rotar");
 		btn.setBounds(966, 667, 100, 30);
 		add(btn);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(idFichaSel != -1) {
+				if(idFichaSel != -1 && jugador.esSuTurno()) {
 					switch (contRotacion) {
 						case 0: {
-							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							cliente.enviarMsj(new MsjRotarFicha(idFichaSel,codigoPartida,true,false));
 							break;
 						}
 						case 1: {
-							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
-							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
+							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
+							cliente.enviarMsj(new MsjRotarFicha(idFichaSel,codigoPartida,true,true));
 							break;
 						}
 						case 2: {
-							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+//							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							cliente.enviarMsj(new MsjRotarFicha(idFichaSel,codigoPartida,true,false));
 							break;
 						}
 						case 3: {
-							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
-							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
+							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
+							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
+							cliente.enviarMsj(new MsjRotarFicha(idFichaSel,codigoPartida,true,true));
 							contRotacion = -1;
 							break;
 						}	
 					}
 					contRotacion++;
+					
+					System.out.println("Tipo terr izq: "+ronda.obtenerFichasEnMesa().get(idFichaSel).getTipoTerrenoIzq().getTipo()+" der: "+ronda.obtenerFichasEnMesa().get(idFichaSel).getTipoTerrenoDer().getTipo());
 				}
 			}
 		});
@@ -105,20 +114,21 @@ public class JPanelPartida extends JPanel{
 				System.out.print("Click en: [" + (point.x ) + ", ");
 				System.out.println(point.y  + "]");
 				
-				if(idFichaSel == -1) {
+				if(idFichaSel == -1 && jugador.tieneTurno()) {
 					idFichaSel= jugador.elegirFicha(ronda.obtenerFichasEnMesa(),point.x,point.y);
-				}else {
+				}else if(idFichaSel != -1 && jugador.tieneTurno()){
 					int aux_f = idFichaSel;
 					idFichaSel = jugador.elegirFicha(ronda.obtenerFichasEnMesa(),point.x,point.y);
 					if(idFichaSel == -1) {
 						// selecciono un lugar para poner la ficha seleccionada anteriormente!
 						idFichaSel = aux_f;
-						int x = convertirCoordAMatriz(point.x,jugador.getTablero().getX0_tablero());
-						int y = convertirCoordAMatriz(point.y,jugador.getTablero().getY0_tablero());
+						int y = convertirCoordAMatriz(point.x,jugador.getTablero().getX0_tablero());
+						int x = convertirCoordAMatriz(point.y,jugador.getTablero().getY0_tablero());
 						Ficha fichaElegida = ronda.obtenerFichaSeleccionada(idFichaSel);
-						int offset_x = fichaElegida.getX() == fichaElegida.getX1()?0:1;
-						int offset_y = fichaElegida.getY() == fichaElegida.getY1()?0:1;
-						cliente.enviarMsj(new MsjPonerFicha(idFichaSel,x, y, x+offset_x, y+offset_y, jugador.getPosicion(), codigoPartida));
+						int offset_y = fichaElegida.getX() == fichaElegida.getX1()?0:1;
+						int offset_x = fichaElegida.getY() == fichaElegida.getY1()?0:1;
+						System.out.println("Valor enviado: 0("+x+";"+y+") - ("+(x+offset_x)+";"+(y+offset_y)+")");
+						cliente.enviarMsj(new MsjPonerFicha(idFichaSel,x, y, x+offset_x, y+offset_y, jugador.getCodJugador(), codigoPartida));
 						idFichaSel=-1;
 //						boolean pudoPoner = jugador.agregarFichaTablero(fichaElegida, x, y, x+offset_x, y+offset_y);
 //						if(pudoPoner) {
@@ -150,13 +160,23 @@ public class JPanelPartida extends JPanel{
 	}
 	@Override
 	protected void paintComponent(Graphics g1) {
+		
 		super.paintComponent(g1);
 		Graphics2D g = (Graphics2D) g1;
+		Font f = g.getFont();
 		ronda.draw(g);
-		int i =0;
+		
+		int i = 0;
 		g.drawString("Puntaje de jugadores:", 995,249); //Lista de jugadores 
+		if(jugador.esSuTurno()) {
+			g.setColor(Color.RED);
+			g.setFont( new Font("Times new Roman",Font.BOLD,20));
+			g.drawString("Es tu turno !", 755,362);			
+		}
+		g.setColor(Color.BLACK);
+		g.setFont(f);
 		for (Jugador j : jugadores) {
-			Font f = g.getFont();
+			
 			j.draw(g);
 			if(jugador.equals(j)) {
 				g.setColor(Color.RED);
@@ -167,5 +187,12 @@ public class JPanelPartida extends JPanel{
 			g.setFont(f);
 			i+=20;
 		}
+	}
+	public int getCodigo() {
+		// TODO Auto-generated method stub
+		return this.codigoPartida;
+	}
+	public void syncRotacionFichas() {
+		this.contRotacion = 0;
 	}	
 }

@@ -22,7 +22,7 @@ public class Ronda implements Drawable{
 	public static final int Y0_FICHAS_MESA = 563;
 	public static final int GAP_ENTRE_FICHAS = 30;
 	
-	public Ronda(ArrayList<Jugador> jug, Mazo mazo) {
+	public Ronda(ArrayList<Jugador> jug, Mazo mazo, boolean turnoJugador, int codJug) {
 		this.mazo = mazo;
 		int cantJugadores = jug.size();
 		fichasEnMesa = new ArrayList<Ficha>(cantJugadores);
@@ -33,6 +33,7 @@ public class Ronda implements Drawable{
 			this.ordenJugadores.add(jug.get(i));
 		}
 		ponerFichasEnMesa();
+		this.ordenJugadores.get(codJug).setTurno(turnoJugador);
 		fichasEnMesa.sort(null);
 	}
 
@@ -46,7 +47,7 @@ public class Ronda implements Drawable{
 
 	private void actualizarPuntajes() {
 		int puntajeMax = Integer.MIN_VALUE;
-		List<Jugador> jugadoresEmpatados = new ArrayList<Jugador>(4);
+		List<Jugador> jugadoresEmpatados = new ArrayList<Jugador>();
 		Jugador j_aux=null;
 		for (Jugador j : this.ordenJugadores) {
 			j.calcularPuntaje();
@@ -136,5 +137,14 @@ public class Ronda implements Drawable{
 	
 	public Ficha obtenerFichaSeleccionada(int f) {
 		return obtenerFichasEnMesa().get(f);
+	}
+
+	public Jugador getJugador(Integer jugadorMueve) {
+		for (Jugador j : this.ordenJugadores) {
+			if(j.getCodJugador() == jugadorMueve) {
+				return j;
+			}
+		}
+		return null;
 	}
 }

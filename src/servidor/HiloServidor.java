@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.List;
 
 import graphics.FrameJuego;
@@ -20,13 +21,14 @@ public class HiloServidor extends Thread{
 	private InfoPartida infoPartida;
 	private List<InfoPartida> partidasCreadas;
 	private static int codigoPartida;
-	
+	private static List<String> nombresUsuariosConectados;
 	public boolean isEstaConectado() {
 		return estaConectado;
 	}
 
 	public void guardarInfoPartida(InfoPartida f) {
 		this.infoPartida = f;
+		this.partidasCreadas.add(f);
 	}
 	public void setEstaConectado(boolean estaConectado) {
 		this.estaConectado = estaConectado;
@@ -121,9 +123,26 @@ public class HiloServidor extends Thread{
 		return codigoPartida;
 	}
 
-	public FrameJuego getInfoPartida() {
+	public FrameJuego getInfoPartida(int codPartida) {
 		// TODO Auto-generated method stub
-		return infoPartida.getfPartida();
+		for (InfoPartida i : partidasCreadas) {
+			if(i.getCodPartida() == codPartida) {
+				return i.getfPartida();
+			}
+		}
+		return null;
+	}
+
+	public  List<String> getNombresUsuariosConectados() {
+		return nombresUsuariosConectados;
+	}
+
+	public void setNombresUsuariosConectados(List<String> nombresUsuariosConectados) {
+		HiloServidor.nombresUsuariosConectados = nombresUsuariosConectados;
+	}
+
+	public void agregarNombreUsuario(String usuarioConecta) {
+		this.nombresUsuariosConectados.add(usuarioConecta);
 	}
 
 }

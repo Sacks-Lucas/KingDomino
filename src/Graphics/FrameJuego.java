@@ -30,11 +30,11 @@ public class FrameJuego extends JFrame{
 		juego= new App(cantJugadores);
 	}
 	
-	public void crearJPanelPartida() {
-		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo()),this.clt,codigoPartida);
+	public void crearJPanelPartida(boolean turno,int codJug) {
+		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo(),turno,codJug),this.clt,codigoPartida,0);
 	}
-	public void iniciarJuego() {
-		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo()),this.clt,codigoPartida);
+	public void iniciarJuego(boolean turnoJugador,int codJug) {
+		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo(),turnoJugador,codJug),this.clt,codigoPartida,codJug);
 		motor = new MotorGrafico(juego, JPanelPartida, this);
 		add(JPanelPartida);
 		pack();
@@ -42,7 +42,6 @@ public class FrameJuego extends JFrame{
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setFocusable(true);
-		is_running = true;
 		motor.start();
 	}
 	public void terminarJuego() {
@@ -51,7 +50,7 @@ public class FrameJuego extends JFrame{
 
 	public void jugarDeNuevo() {
 		this.juego = new App(cantJugadores);
-		iniciarJuego();	
+//		iniciarJuego();	
 	}
 	public App getApp() {
 		// TODO Auto-generated method stub

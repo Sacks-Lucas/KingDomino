@@ -16,9 +16,8 @@ public class InfoPartida {
 	public FrameJuego getfPartida() {
 		return fPartida;
 	}
+	public int getCodPartida() {
+		return fPartida.getJPanelPartida().getCodigo();
+	}
 	
-	//actualizar movimiento
-	//rotar
-	//poner ficha
-	//
 }

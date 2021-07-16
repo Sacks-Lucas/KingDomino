@@ -212,20 +212,23 @@ public class Tablero implements Drawable{
 	public void draw(Graphics2D g) {
 		for (int i = 1; i < TAM_TABLERO-1; i++) {
 			for (int k = 1; k < TAM_TABLERO-1; k++) {
+				int pos_x = this.x0_tablero+k*Ficha.TAM_TERRENO;
+				int pos_y = this.y0_tablero+i*Ficha.TAM_TERRENO;
 				if(matrizOcupados[i][k] != null) {
 					if((matrizOcupados[i][k]).getTipo() != -1) {
 						g.setColor((matrizOcupados[i][k]).getColor());
 					}else {
 						g.setColor(Color.black);
 					}
-					g.fillRect(this.x0_tablero+i*Ficha.TAM_TERRENO,this.y0_tablero+k*Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
+
+					g.fillRect(pos_x,pos_y, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
 
 					g.setColor(Color.BLACK);
-					g.drawString(""+matrizOcupados[i][k].getCoronas(), (this.x0_tablero+i*Ficha.TAM_TERRENO)+9, (this.y0_tablero+k*Ficha.TAM_TERRENO)+18);
+					g.drawString(""+matrizOcupados[i][k].getCoronas(), pos_x+9, pos_y+18);
 					
 				}
 				g.setColor(Color.LIGHT_GRAY);
-				g.drawRoundRect(this.x0_tablero+i*Ficha.TAM_TERRENO,this.y0_tablero+k*Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, 5, 5);	
+				g.drawRoundRect(pos_x,pos_y, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO, 5, 5);	
 			}
 		}
 		g.setColor(Color.black);

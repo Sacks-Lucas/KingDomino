@@ -39,20 +39,19 @@ public class MsjPonerFicha implements Mensaje, Serializable{
 	@Override
 	public String realizarOperacion(HiloServidor hilo) {
 		
-		FrameJuego frame = hilo.getInfoPartida();
-		
+		FrameJuego frame = hilo.getInfoPartida(this.codPartida);
 		JPanelPartida partida = frame.getJPanelPartida();
-		Jugador jugador = partida.getJugador();
+		Jugador jugador = partida.getRonda().getJugador(this.jugadorMueve);
 		Ficha fichaElegida = partida.getRonda().obtenerFichaSeleccionada(fichaSel);
 		boolean pudoPoner = jugador.agregarFichaTablero(fichaElegida, ficha_x0, ficha_y0, ficha_x1, ficha_y1);
-		RespMensaje RespPonerFicha =  new RespPonerFicha(false,fichaSel, ficha_x0, ficha_y0, ficha_x1, ficha_y1);
+		RespMensaje RespPonerFicha =  new RespPonerFicha(this.jugadorMueve,-1,false,fichaSel, ficha_x0, ficha_y0, ficha_x1, ficha_y1);
 		
 		if(pudoPoner) {
-			System.out.println("Pudo poner ! "+fichaSel+" - "+ficha_x0+" - "+ ficha_y0+" - "+ ficha_x1+" - "+ ficha_y1);
 			jugador.terminaTurno();
-			jugador = partida.getRonda().siguienteTurno(fichaSel);
-			jugador.leTocaTurno();	
-			RespPonerFicha = new RespPonerFicha(true,fichaSel, ficha_x0, ficha_y0, ficha_x1, ficha_y1);
+			Jugador j = partida.getRonda().siguienteTurno(fichaSel);
+			j.leTocaTurno();	
+			int codJugSigue = j.getCodJugador();
+			RespPonerFicha = new RespPonerFicha(this.jugadorMueve,codJugSigue,true,fichaSel, ficha_x0, ficha_y0, ficha_x1, ficha_y1);
 		}
 		
 		hilo.broadcastPartida(RespPonerFicha,hilo.getClientes_conectados());

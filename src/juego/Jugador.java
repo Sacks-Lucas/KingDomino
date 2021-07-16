@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.util.List;
 
 public class Jugador implements Comparable<Jugador>,Drawable {
+	private int codJugador;
+
 
 	private String color;
 	private Tablero tablero;
@@ -13,10 +15,14 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 	private int puntaje=0;
 	private boolean turnoJugador = false;
 	
-	public Jugador(String color, Tablero tablero2) {
-
+	public Jugador(String color, Tablero tablero2,int cod) {
+		this.codJugador = cod;
 		this.color = color;
 		this.tablero = tablero2;
+	}
+	
+	public int getCodJugador() {
+		return codJugador;
 	}
 
 	public int elegirFicha(List<Ficha> fichasMesa, int x, int y) {
@@ -112,5 +118,19 @@ public class Jugador implements Comparable<Jugador>,Drawable {
 
 	public void terminaTurno() {
 		this.turnoJugador = false;
+	}
+
+	public boolean tieneTurno() {
+		
+		return turnoJugador;
+	}
+
+	public void setTurno(boolean turnoJugador2) {
+		this.turnoJugador = turnoJugador2;
+	}
+
+	public boolean esSuTurno() {
+		// TODO Auto-generated method stub
+		return this.turnoJugador;
 	}
 }

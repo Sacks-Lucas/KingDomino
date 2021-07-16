@@ -136,11 +136,12 @@ public class Ficha implements Comparable<Ficha>, Drawable{
 		g.setColor(getTipoTerrenoIzq().getColor());
 		g.fillRect(x, y, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
 		g.setColor(Color.BLACK);
-		g.drawString(""+getTipoTerrenoIzq().getCoronas(), this.x+9, this.y+18);
+		//this.x+9, this.y+18
+		g.drawString(""+getTipoTerrenoIzq().getCoronas()+"-"+getTipoTerrenoIzq().getTipo()+" ", this.x+1, this.y+18);
 		g.setColor(getTipoTerrenoDer().getColor());
 		g.fillRect(this.x1,this.y1, Ficha.TAM_TERRENO, Ficha.TAM_TERRENO);
 		g.setColor(Color.BLACK);
-		g.drawString(""+getTipoTerrenoDer().getCoronas(), this.x1+9,this.y1+18);
+		g.drawString(""+getTipoTerrenoDer().getCoronas()+"-"+getTipoTerrenoDer().getTipo()+" ", this.x1+9,this.y1+18);
 		
 		if(estaSeleccionada) {
 			Color aux = g.getColor();
