@@ -1,8 +1,5 @@
 package graphics;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -26,6 +23,8 @@ import javax.swing.JList;
 
 public class SalaPartida extends JFrame {
 
+
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Cliente cliente;
 	private JTextField textField;
@@ -33,10 +32,7 @@ public class SalaPartida extends JFrame {
 	private DefaultListModel modelo = new DefaultListModel();
 	private JList listUsr;
 	private List<Socket> clientesConectados = new LinkedList<Socket>();
-	public static void main(String[] args) throws UnknownHostException, IOException {
-		SalaPartida frame = new SalaPartida();
-		frame.setVisible(true);
-	}
+
 	public SalaPartida() throws UnknownHostException, IOException {
 		cliente = new Cliente(); 
 		cliente.setSalaPartida(this);
@@ -50,7 +46,9 @@ public class SalaPartida extends JFrame {
 		JButton btnComenzarJuego = new JButton("IniciarJuego");
 		btnComenzarJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cliente.enviarMsj(new MsjCrearPartida(2));
+				if(modelo.getSize() > 1) {
+					cliente.enviarMsj(new MsjCrearPartida(2));
+				}
 			}
 		});
 		btnComenzarJuego.setBounds(165, 211, 136, 23);
@@ -86,5 +84,10 @@ public class SalaPartida extends JFrame {
 	}
 	public void setClientesConectados(List<Socket> clientesConectados) {
 		this.clientesConectados = clientesConectados;
+	}
+	
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		SalaPartida frame = new SalaPartida();
+		frame.setVisible(true);
 	}
 }

@@ -11,6 +11,7 @@ import juego.App;
 import juego.Ficha;
 import juego.Jugador;
 import respServidorACliente.RespMensaje;
+import respServidorACliente.RespPartidaFinalizada;
 import respServidorACliente.RespPonerFicha;
 import servidor.HiloServidor;
 
@@ -49,9 +50,15 @@ public class MsjPonerFicha implements Mensaje, Serializable{
 		if(pudoPoner) {
 			jugador.terminaTurno();
 			Jugador j = partida.getRonda().siguienteTurno(fichaSel);
-			j.leTocaTurno();	
-			int codJugSigue = j.getCodJugador();
-			RespPonerFicha = new RespPonerFicha(this.jugadorMueve,codJugSigue,true,fichaSel, ficha_x0, ficha_y0, ficha_x1, ficha_y1);
+			System.out.println(partida.getRonda().getMazo().getCantFichas());
+			if(partida.isEnded()) {
+				System.out.println("Finalizó partida");
+				RespPonerFicha = new RespPartidaFinalizada(this.jugadorMueve,true,fichaSel, ficha_x0, ficha_y0, ficha_x1, ficha_y1);
+			}else {
+				j.leTocaTurno();	
+				int codJugSigue = j.getCodJugador();
+				RespPonerFicha = new RespPonerFicha(this.jugadorMueve,codJugSigue,true,fichaSel, ficha_x0, ficha_y0, ficha_x1, ficha_y1);
+			}
 		}
 		
 		hilo.broadcastPartida(RespPonerFicha,hilo.getClientes_conectados());

@@ -51,9 +51,6 @@ public class App {
 	}
 
 
-	public String getGanador() {
-		return "Rojo";
-	}
 	
 	public void setGanador(String ganador) {
 		this.ganador = ganador;

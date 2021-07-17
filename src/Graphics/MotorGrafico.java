@@ -43,9 +43,6 @@ public class MotorGrafico extends Thread{
 				frames++;
 				next_game_frame += SKIP_FRAMES;
 				display();
-				if(juego.juegoFinalizado()) {
-					terminarJuego();
-				}
 			}
 			if (System.currentTimeMillis() > next_frame_calc) {
 				fps = frames;
@@ -55,7 +52,7 @@ public class MotorGrafico extends Thread{
 		}
 		
 		frame.setFocusable(false);
-		new VentanaJuegoFinalizado(this.frame,juego.getGanador());
+		new VentanaJuegoFinalizado(this.frame,"");
 	}
 	
 }

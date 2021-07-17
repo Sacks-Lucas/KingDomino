@@ -27,14 +27,16 @@ public class MsjCrearPartida implements Mensaje,Serializable{
 		int codigo = hilo.obtenerCodigoPartida();
 		FrameJuego f = new FrameJuego(cantJugadores,codigo,null);
 		f.getApp().crearMazo();
-		f.crearJPanelPartida(true,0);
-		hilo.guardarInfoPartida(new InfoPartida(f,hilo.getClientes_conectados()));
 		List<Integer> listaFichasMazo = new LinkedList<Integer>();
 		Mazo m  = f.getApp().getMazo();
 		
 		for (Ficha ficha: m.getFichas() ) {
 			listaFichasMazo.add(ficha.getCode());
 		}
+		f.crearJPanelPartida(true,0);
+		hilo.guardarInfoPartida(new InfoPartida(f,hilo.getClientes_conectados()));
+		
+
 		
 
 		try {

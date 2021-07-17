@@ -1,6 +1,5 @@
 package cliente;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -18,7 +17,6 @@ public class Cliente {
     private String mensajeServidor; //Mensajes entrantes (recibidos) en el servidor
     private Socket cs; //Socket del cliente
     ObjectOutputStream salidaServidor;
-    private DataOutputStream salidaCliente; //Flujo de datos de salida
     private HiloCliente hilo;
 	private SalaPartida entrarAPartida;
 

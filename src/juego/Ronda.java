@@ -13,7 +13,7 @@ public class Ronda implements Drawable{
 	private Mazo mazo;
 	private int jugadorActual=0;
 	private String ganador="";
-
+	private boolean terminoPartida= true;
 	
 	//atributos para utilización de Graficos 
 	public static final int X_STR_RONDA = 633;
@@ -21,7 +21,12 @@ public class Ronda implements Drawable{
 	public static final int X0_FICHAS_MESA = 923;
 	public static final int Y0_FICHAS_MESA = 563;
 	public static final int GAP_ENTRE_FICHAS = 30;
-	
+	public String getGanador() {
+		return ganador;
+	}
+	public Mazo getMazo() {
+		return mazo;
+	}
 	public Ronda(ArrayList<Jugador> jug, Mazo mazo, boolean turnoJugador, int codJug) {
 		this.mazo = mazo;
 		int cantJugadores = jug.size();
@@ -37,12 +42,12 @@ public class Ronda implements Drawable{
 		fichasEnMesa.sort(null);
 	}
 
-	public void siguienteRonda() {
+	public boolean siguienteRonda() {
 		nroRonda++;
 		fichasEnMesa.clear();
 		ordenJugadores.sort(null);
-		ponerFichasEnMesa();
 		actualizarPuntajes();
+		return ponerFichasEnMesa();
 	}
 
 	private void actualizarPuntajes() {
@@ -90,9 +95,10 @@ public class Ronda implements Drawable{
 		return ordenJugadores;
 	}
 
-	public void ponerFichasEnMesa() {
+	public boolean ponerFichasEnMesa() {
 		int x0 = X0_FICHAS_MESA;
 		int y0 = Y0_FICHAS_MESA;
+		if(mazo.getCantFichas() == 0 ) return false;
 		for (int i = 0; i < ordenJugadores.size(); i++) {
 			Ficha f = mazo.sacarFicha();
 			fichasEnMesa.add(f);
@@ -103,7 +109,9 @@ public class Ronda implements Drawable{
 			ficha.setX(x0);
 			ficha.setY(y0);
 			x0 += Ficha.ANCHO_FICHA + GAP_ENTRE_FICHAS;
+//			System.out.println("Existen fichas: "+ficha.getCode());
 		}
+		return true;
 		
 	}
 
@@ -113,7 +121,7 @@ public class Ronda implements Drawable{
 		
 		g.setFont(new Font("TimesRoman", Font.BOLD, 16));
 		g.drawString("Ronda "+this.nroRonda, X_STR_RONDA, Y_STR_RONDA);		
-		g.drawString("Turno del jugador: \n"+ordenJugadores.get(this.jugadorActual).getColor(), 975, 218);
+		if(this.jugadorActual < ordenJugadores.size())g.drawString("Turno del jugador: \n"+ordenJugadores.get(this.jugadorActual).getColor(), 975, 218);
 		
 		
 		for (Ficha ficha : obtenerFichasEnMesa()) {
@@ -129,12 +137,18 @@ public class Ronda implements Drawable{
 		sacarFicha(f,jugadorActual);
 		this.jugadorActual++;
 		if( jugadorActual > ordenJugadores.size()-1) {
-			siguienteRonda();
+			this.terminoPartida = siguienteRonda();
 			jugadorActual=0;
 		}
+//		System.out.println("Termino partida: "+this.terminoPartida);
 		return this.ordenJugadores.get(jugadorActual);
 	}
 	
+	public boolean isTerminoPartida() {
+//		System.out.println(""+this.getMazo().getCantFichas()+" - "+this.fichasEnMesa.size());
+		return this.getMazo().getCantFichas() == 0 && this.fichasEnMesa.size() == 0;
+	}
+
 	public Ficha obtenerFichaSeleccionada(int f) {
 		return obtenerFichasEnMesa().get(f);
 	}

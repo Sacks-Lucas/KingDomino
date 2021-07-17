@@ -6,7 +6,7 @@ import juego.App;
 import juego.Ronda;
 
 public class FrameJuego extends JFrame{
-
+	private final String [] COLORES = {"Rojo", "Azul", "Amarillo", "Verde"};
 	private static final long serialVersionUID = 1L;
 	private boolean is_running=false;
 	private int loops=0;
@@ -34,6 +34,7 @@ public class FrameJuego extends JFrame{
 		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo(),turno,codJug),this.clt,codigoPartida,0);
 	}
 	public void iniciarJuego(boolean turnoJugador,int codJug) {
+		this.setTitle(COLORES[codJug]);
 		JPanelPartida = new JPanelPartida(new Ronda(juego.getJugadores(),juego.getMazo(),turnoJugador,codJug),this.clt,codigoPartida,codJug);
 		motor = new MotorGrafico(juego, JPanelPartida, this);
 		add(JPanelPartida);

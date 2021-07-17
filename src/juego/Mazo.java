@@ -1,6 +1,5 @@
 package juego;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +15,26 @@ public class Mazo {
 
 	public Mazo(int cant) {
 		fichas = new ArrayList<Ficha>(cant);
-		fichas = ArchivoMazo.cargarMazo("archivos mazos/ejemplo.in");
+		ArrayList<Ficha> fichas = ArchivoMazo.cargarMazo("archivos mazos/ejemplo.in");
+		for (int i = 0; i < cant; i++) {
+			this.fichas.add(fichas.get(i));
+		}
+	}
+	public int getCantFichas() {
+		return fichas.size();
 	}
 
 	public Mazo(List<Integer> listaFichasMazo) {
 		fichas = new ArrayList<Ficha>(listaFichasMazo.size());
 		ArrayList<Ficha> fichas_aux = ArchivoMazo.cargarMazo("archivos mazos/ejemplo.in");
+		System.out.println("Fichas en cliente");
 		for (Integer integer : listaFichasMazo) {
 			Ficha aux_ficha_arch = fichas_aux.get(integer);
 			fichas.add(new Ficha(aux_ficha_arch.getIzquierdo(), aux_ficha_arch.getDerecho(), integer));
+			System.out.println(aux_ficha_arch.getCode());
 		}
 
+		System.out.println("Cant fichas: "+fichas.size()+" - "+fichas_aux.size()+" - "+listaFichasMazo.size());
 	}
 
 	public void mezclar() {
@@ -43,6 +51,7 @@ public class Mazo {
 	}
 
 	public Ficha sacarFicha() {
+		if(fichas.isEmpty()) return null;
 		return fichas.remove(fichas.size()-1);
 	}
 
@@ -53,6 +62,7 @@ public class Mazo {
 
 	public boolean estaVacio() {
 		// TODO Auto-generated method stub
+		System.out.println("Mazo: cantidad de fichas: "+fichas.size());
 		return this.fichas.isEmpty();
 	}
 	

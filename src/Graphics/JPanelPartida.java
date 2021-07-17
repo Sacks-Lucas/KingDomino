@@ -23,6 +23,7 @@ import juego.Jugador;
 import juego.Ronda;
 import juego.Tablero;
 import juego.Terreno;
+import msjClienteAServidor.MsjDescartarFicha;
 import msjClienteAServidor.MsjPonerFicha;
 import msjClienteAServidor.MsjRotarFicha;
 
@@ -64,32 +65,24 @@ public class JPanelPartida extends JPanel{
 				if(idFichaSel != -1 && jugador.esSuTurno()) {
 					switch (contRotacion) {
 						case 0: {
-							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
 							cliente.enviarMsj(new MsjRotarFicha(idFichaSel,codigoPartida,true,false));
 							break;
 						}
 						case 1: {
-							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
-							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
 							cliente.enviarMsj(new MsjRotarFicha(idFichaSel,codigoPartida,true,true));
 							break;
 						}
 						case 2: {
-//							ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
 							cliente.enviarMsj(new MsjRotarFicha(idFichaSel,codigoPartida,true,false));
 							break;
 						}
 						case 3: {
-							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarFicha();
-							//ronda.obtenerFichasEnMesa().get(idFichaSel).rotarTerreno();
 							cliente.enviarMsj(new MsjRotarFicha(idFichaSel,codigoPartida,true,true));
 							contRotacion = -1;
 							break;
 						}	
 					}
-					contRotacion++;
-					
-					System.out.println("Tipo terr izq: "+ronda.obtenerFichasEnMesa().get(idFichaSel).getTipoTerrenoIzq().getTipo()+" der: "+ronda.obtenerFichasEnMesa().get(idFichaSel).getTipoTerrenoDer().getTipo());
+					contRotacion++;	
 				}
 			}
 		});
@@ -100,7 +93,8 @@ public class JPanelPartida extends JPanel{
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(idFichaSel != -1) {
-					jugador = ronda.siguienteTurno(idFichaSel);
+					cliente.enviarMsj(new MsjDescartarFicha(idFichaSel,codigoPartida,jugador.getCodJugador()));
+//					jugador = ronda.siguienteTurno(idFichaSel);
 					idFichaSel=-1; // la ficha se deselecciona cuando se pudo poner en el tablero
 				}
 			}
@@ -194,5 +188,8 @@ public class JPanelPartida extends JPanel{
 	}
 	public void syncRotacionFichas() {
 		this.contRotacion = 0;
+	}
+	public boolean isEnded() {
+		return ronda.isTerminoPartida();
 	}	
 }

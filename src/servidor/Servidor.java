@@ -48,8 +48,7 @@ public class Servidor{
     void finalizarServidor() {
     	this.running=false;
     }
-    public static void main(String[] args) throws IOException
-    {
+    public static void main(String[] args) throws IOException{
         Servidor serv = new Servidor(); //Se crea el servidor
 
         System.out.println("Iniciando servidor\n");

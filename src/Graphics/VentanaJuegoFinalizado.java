@@ -1,15 +1,8 @@
 package graphics;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import juego.App;
 
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
@@ -25,6 +18,7 @@ public class VentanaJuegoFinalizado extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setFocusable(true);
 		this.framePadre = padre;
+		string = this.framePadre.getJPanelPartida().getRonda().getGanador();
 		setBounds(100, 100, 450, 300);
 		contentPanel.setBounds(0, 0, 434, 250);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
